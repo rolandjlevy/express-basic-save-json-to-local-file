@@ -1,1 +1,3 @@
 - https://www.geeksforgeeks.org/node-js-fs-existssync-method/
+- https://nodejs.org/api/fs.html#fs_fs_writefilesync_file_data_options
+- Look at Mosh's CRUD tutorial
