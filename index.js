@@ -25,7 +25,15 @@ const getLastId = () => {
 
 const deleteUser = (id) => {
   const users = getExistingData();
-  const updatedUsers = users.filter(item => item.id !== id);
+  const updatedUsers = users.map(item => {
+    if (item.id === id) {
+      const updatedItem = {...item};
+      updatedItem.deleted = 1;
+      return updatedItem;
+    } else {
+      return item;
+    }
+  });
   (async () => {
     await fs.writeFileSync(filename, JSON.stringify(updatedUsers));
     console.log('Deleted');
@@ -46,17 +54,17 @@ init();
 
 app.get('/', (req, res) => {
   res.status(200).send(`
-    <h3>Add user demo</h3>
+    <h3>Subscribe to our Newsletter 📝</h3>
     <form method="post" action="/add">
     <ul>
-      <li><label for="name">Name</label> <input type="text"  id="name" name="name" value="" placeholder="Your name..."  required /></li>
-      <li><label for="email">Email</label> <input type="email" id="email" name="email" value="" placeholder="Your email..." required /></li>
-      <li><label for="message">Message</label> <textarea id="message" name="message" value="" placeholder="Your message..." required /></textarea></li>
-      <li><label for="subscribe">Subscribe</label> <input type="checkbox" id="subscribe" name="subscribe" /></li>
+      <li><label for="name">👨‍💼 Name</label> <input type="text"  id="name" name="name" value="" placeholder="Your name..."  required /></li>
+      <li><label for="email">📧 Email</label> <input type="email" id="email" name="email" value="" placeholder="Your email..." required /></li>
+      <li><label for="message">💬 Message</label> <textarea id="message" name="message" value="" placeholder="Your message..." required /></textarea></li>
+      <li><label for="subscribe">🔔 Subscribe</label> <input type="checkbox" id="subscribe" name="subscribe" /></li>
     </ul>
-    <input type="submit" value="Add user">
+    <input type="submit" value="Submit">
     </form>
-    <p><a href="/view">View records</a> | <a href="/json">View json data</a></p>
+    <p><a href="/view">View records</a>
   `);
 });
 
@@ -68,7 +76,8 @@ app.post('/add', (req, res) => {
     email,
     message,
     subscribe: subscribe ? '✅' : '',
-    added: new Date()
+    added: new Date(),
+    deleted: 0
   };
   const existingData = getExistingData()
   existingData.push(userData);
@@ -87,9 +96,9 @@ app.post('/add', (req, res) => {
 
 app.get('/view', (req, res) => {
   const users = getExistingData();
-  const output = getUserRecords(users);
+  const output = getUserRecords(users, 0);
   res.status(200).send(`
-    <h3>Add user demo</h3>
+    <h3>Subscribe to our Newsletter 📝</h3>
     <p>View records:</p>
     ${output}
     <p><a href="/">← Home</a> | <a href="/view">Refresh</a></p>
@@ -101,7 +110,7 @@ app.get('/delete', (req, res) => {
   deleteUser(id);
 });
 
-const getUserRecords = (users) => {
+const getUserRecords = (users, showDeleted = false) => {
   let output = `
   <table border="1">
     <thead>
@@ -116,15 +125,17 @@ const getUserRecords = (users) => {
     </thead>
     <tbody>`;
   users.forEach(item => {
-    const date = new Date(item.added);
-    output += `<tr>
-      <td>${item.name}</td>
-      <td>${item.email}</td>
-      <td>${item.message}</td>
-      <td>${item.subscribe}</td>
-      <td>${dateFormat(date, 'GMT:dd/mm/yyyy, h:MM:ss TT')}</td>
-      <td><a href="/delete?id=${item.id}">Delete</a></td>
-    </tr>`; 
+    if (!item.deleted || (item.deleted && showDeleted)) {
+      const date = new Date(item.added);
+      output += `<tr>
+        <td>${item.name}</td>
+        <td>${item.email}</td>
+        <td>${item.message}</td>
+        <td>${item.subscribe}</td>
+        <td>${dateFormat(date, 'GMT:dd/mm/yyyy, h:MM:ss TT')}</td>
+        <td><a href="/delete?id=${item.id}">Delete</a></td>
+      </tr>`;
+    }
   });
   output += '</tbody></table>';
   return output;
@@ -133,7 +144,7 @@ const getUserRecords = (users) => {
 app.get('/json', (req, res) => {
   const users = getExistingData();
   res.status(200).send(`
-    <h3>Add user demo</h3>
+    <h3>Subscribe to our Newsletter 📝</h3>
     <p>View json data:</p>
     <pre>
       ${JSON.stringify(users, null, 2)}
