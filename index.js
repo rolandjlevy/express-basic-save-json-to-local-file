@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const filename = './' + process.env.FILENAME;
-const port = process.env.FILENAME || 3000;
+const port = process.env.PORT || 3000;
 
 const getExistingData = () => {
   const fileContents = fs.readFileSync(filename);
