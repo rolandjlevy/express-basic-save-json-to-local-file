@@ -1,13 +1,14 @@
 const express = require('express');
 const app = express();
-const port = 3000;
 const fs = require("fs");
 const dateFormat = require('dateformat');
+require('dotenv').config();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const filename = './users.json';
+const filename = './' + process.env.FILENAME;
+const port = process.env.FILENAME || 3000;
 
 const getExistingData = () => {
   const fileContents = fs.readFileSync(filename);
