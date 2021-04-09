@@ -8,27 +8,32 @@ app.use(express.json());
 
 const filename = './users.json';
 
+if (!fs.existsSync(filename)) {
+  fs.writeFileSync(filename, "[]");
+}
+
 app.get('/', (req, res) => {
   res.send(`
     <h3>Read / write demo</h3>
     <form method="post" action="/write">
     <p><input type="text" name="name" value="" /><button type="submit">write</button></p>
     </form>
-    <p><a href="/read">Read file</a></p>
+    <p><a href="/view">View records</a> | <a href="/data">View raw data</a></p>
   `);
 });
 
 app.post('/write', (req, res) => {
   const { name } = req.body;
-  const input = [
-    {
-      name: name
-    }
-  ]
+  const dataToAppend = { name };
+  const fileContents = fs.readFileSync(filename);
+  const data = JSON.parse(fileContents);
+  data.push(dataToAppend);
+  // Use this instead, with async await 
+  // fs.writeFileSync(filename, JSON.stringify(data), {encoding: "utf8"});
   fs.writeFile(
     filename, 
-    JSON.stringify(input), 
-    "utf8", 
+    JSON.stringify(data), 
+    "utf8",
     function(err) {
       if (err) {
         return console.log(err);
@@ -38,17 +43,30 @@ app.post('/write', (req, res) => {
   );
 });
 
-app.get('/read', (req, res) => {
-  const output = require(filename);
-  // const users = JSON.parse(output);
-  console.log(output[0].name);
+app.get('/view', (req, res) => {
+  const fileContents = fs.readFileSync(filename);
+  const users = JSON.parse(fileContents);
+  let output = '<ul>';
+  users.forEach(item => { output += `<li>Name: ${item.name}</li>`; });
+  output += '</ul>';
   res.send(`
     <h3>Read / write demo</h3>
-    <p>File contents:</p>
+    <p>View records:</p>
+    ${output}
+    <p><a href="/">← Home</a></p>
+  `);
+});
+
+app.get('/data', (req, res) => {
+  const fileContents = fs.readFileSync(filename);
+  const users = JSON.parse(fileContents);
+  res.send(`
+    <h3>Read / write demo</h3>
+    <p>View raw data</p>
     <pre>
-      ${JSON.stringify(output, null, 2)}
+      ${JSON.stringify(users, null, 2)}
     </pre>
-    <p><a href="/">Home</a></p>
+    <p><a href="/">← Home</a></p>
   `);
 });
 
