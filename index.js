@@ -34,12 +34,15 @@ const deleteUser = (id) => {
 
 let counter;
 
-if (fs.existsSync(filename)) {
-  counter = getLastId();
-} else {
-  fs.writeFileSync(filename, "[]");
-  counter = 0;
+const init = () => {
+  if (fs.existsSync(filename)) {
+    counter = getLastId();
+  } else {
+    fs.writeFileSync(filename, "[]");
+    counter = 0;
+  }
 }
+init();
 
 app.get('/', (req, res) => {
   res.status(200).send(`
@@ -84,7 +87,7 @@ app.post('/add', (req, res) => {
 
 app.get('/view', (req, res) => {
   const users = getExistingData();
-  const output = getRecords(users);
+  const output = getUserRecords(users);
   res.status(200).send(`
     <h3>Add user demo</h3>
     <p>View records:</p>
@@ -98,7 +101,7 @@ app.get('/delete', (req, res) => {
   deleteUser(id);
 });
 
-const getRecords = (users) => {
+const getUserRecords = (users) => {
   let output = `
   <table border="1">
     <thead>
@@ -107,7 +110,7 @@ const getRecords = (users) => {
         <th>Email</th>
         <th>Message</th>
         <th>Subscribed?</th>
-        <th>Date added</th>
+        <th>Date / Time added</th>
         <th>&nbsp;</th>
       </tr>
     </thead>
