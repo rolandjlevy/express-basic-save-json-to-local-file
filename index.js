@@ -12,44 +12,44 @@ const filename = './' + process.env.FILENAME;
 const port = process.env.PORT || 3000;
 
 const Users = require('./Users.js');
-new Users();
+const users = new Users();
 
-const getUsers = () => {
-  try {
-    const fileContents = fs.readFileSync(filename);
-    const data = JSON.parse(fileContents);
-    return data.sort((a, b) => new Date(b.added) - new Date(a.added));
-  } catch(err) {
-    console.log(err);
-  }
-};
+// const getData = () => {
+//   try {
+//     const fileContents = fs.readFileSync(filename);
+//     const data = JSON.parse(fileContents);
+//     return data.sort((a, b) => new Date(b.added) - new Date(a.added));
+//   } catch(err) {
+//     console.log(err);
+//   }
+// };
 
-const saveUsers = async (data) => {
-  try {
-    await fs.writeFileSync(filename, JSON.stringify(data));
-  } catch(err) {
-    console.log(err);
-  }
-}
+// const saveUsers = async (data) => {
+//   try {
+//     await fs.writeFileSync(filename, JSON.stringify(data));
+//   } catch(err) {
+//     console.log(err);
+//   }
+// }
 
-const getLastId = () => {
-  return getUsers().reduce((acc, item) => {
-    if (Number(item.id) > acc) acc = item.id;
-    return acc;
-  }, 0);
-}
+// const getLastId = () => {
+//   return getData().reduce((acc, item) => {
+//     if (Number(item.id) > acc) acc = item.id;
+//     return acc;
+//   }, 0);
+// }
 
-let counter;
+// let counter;
 
-const init = () => {
-  if (fs.existsSync(filename)) {
-    counter = getLastId();
-  } else {
-    saveUsers([]);
-    counter = 0;
-  }
-}
-init();
+// const init = () => {
+//   if (fs.existsSync(filename)) {
+//     counter = getLastId();
+//   } else {
+//     saveUsers([]);
+//     counter = 0;
+//   }
+// }
+// init();
 
 app.get('/', (req, res) => {
   res.status(200).send(`
@@ -69,17 +69,7 @@ app.get('/', (req, res) => {
 
 // Add new user
 app.post('/add', async (req, res) => {
-  const { name, email, message, subscribe } = req.body;
-  const user = { 
-    id: ++counter, 
-    name, 
-    email,
-    message,
-    subscribe: subscribe ? '✅' : '',
-    added: new Date()
-  };
-  const existingData = [ ...getUsers(), user];
-  saveUsers(existingData);
+  users.add(req.body);
 });
 
 // view all user records
@@ -95,13 +85,13 @@ app.get('/view', (req, res) => {
 // delete one record
 app.get('/delete', (req, res, next) => {
   const id = Number(req.query.id);
-  const userExists = getUsers().find(item => item.id === id);
+  const userExists = users.getData().find(item => item.id === id);
   if (!userExists) {
     const error = new Error(`Record with ID '${id}' does not exist`);
     next(error);
   }
-  const updatedUsers = getUsers().filter(item => item.id !== id);
-  saveUsers(updatedUsers);
+  const updatedUsers = users.getData().filter(item => item.id !== id);
+  users.saveUsers(updatedUsers);
   res.status(200).redirect('/view');
 });
 
@@ -119,7 +109,7 @@ const getUserRecords = () => {
       </tr>
     </thead>
     <tbody>`;
-  getUsers().forEach(item => {
+  users.getData().forEach(item => {
     const date = new Date(item.added);
     output += `<tr>
       <td>${item.name}</td>
