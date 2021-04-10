@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const fs = require("fs");
+const { promisify } = require('util'); // transforms callbacks into promises
 const dateFormat = require('dateformat');
 require('dotenv').config();
 
@@ -10,15 +11,26 @@ app.use(express.json());
 const filename = './' + process.env.FILENAME;
 const port = process.env.PORT || 3000;
 
+const Users = require('./Users.js');
+new Users();
+
 const getUsers = () => {
   try {
     const fileContents = fs.readFileSync(filename);
     const data = JSON.parse(fileContents);
     return data.sort((a, b) => new Date(b.added) - new Date(a.added));
   } catch(err) {
-    next(err);
+    console.log(err);
   }
 };
+
+const saveUsers = async (data) => {
+  try {
+    await fs.writeFileSync(filename, JSON.stringify(data));
+  } catch(err) {
+    console.log(err);
+  }
+}
 
 const getLastId = () => {
   return getUsers().reduce((acc, item) => {
@@ -27,21 +39,13 @@ const getLastId = () => {
   }, 0);
 }
 
-const writeToFile = async (data) => {
-  try {
-    await fs.writeFileSync(filename, JSON.stringify(data));
-  } catch(err) {
-    next(err);
-  }
-}
-
 let counter;
 
 const init = () => {
   if (fs.existsSync(filename)) {
     counter = getLastId();
   } else {
-    fs.writeFileSync(filename, "[]");
+    saveUsers([]);
     counter = 0;
   }
 }
@@ -49,6 +53,7 @@ init();
 
 app.get('/', (req, res) => {
   res.status(200).send(`
+    <nav><a href="/">Home</a> | <a href="/view">View records</a></nav>
     <h3>Subscribe to our Newsletter 📝</h3>
     <form method="post" action="/add">
     <ul>
@@ -59,7 +64,6 @@ app.get('/', (req, res) => {
     </ul>
     <input type="submit" value="Submit">
     </form>
-    <p><a href="/view">View records</a>
   `);
 });
 
@@ -74,9 +78,8 @@ app.post('/add', async (req, res) => {
     subscribe: subscribe ? '✅' : '',
     added: new Date()
   };
-  const existingData = getUsers()
-  existingData.push(user);
-  writeToFile(existingData);
+  const existingData = [ ...getUsers(), user];
+  saveUsers(existingData);
 });
 
 // view all user records
@@ -90,15 +93,15 @@ app.get('/view', (req, res) => {
 });
 
 // delete one record
-app.get('/delete', async (req, res, next) => {
+app.get('/delete', (req, res, next) => {
   const id = Number(req.query.id);
-  const idExists = getUsers().find(item => item.id === id);
-  if (!idExists) {
+  const userExists = getUsers().find(item => item.id === id);
+  if (!userExists) {
     const error = new Error(`Record with ID '${id}' does not exist`);
     next(error);
   }
   const updatedUsers = getUsers().filter(item => item.id !== id);
-  writeToFile(updatedUsers);
+  saveUsers(updatedUsers);
   res.status(200).redirect('/view');
 });
 
@@ -141,6 +144,12 @@ app.get('/not-found', (req, res) => {
   res.status(200).send('Page not found');
 });
 
+// error page
+app.get('/error', (req, res) => {
+  // res.render('errorPage.ejs')
+  res.status(200).send('Error');
+});
+
 // wildcard route throws not found error
 app.get('*', (req, res, next) => {
   const error = new Error(`${req.ip} tried to access ${req.originalUrl}`);
@@ -150,7 +159,7 @@ app.get('*', (req, res, next) => {
 
 // middleware for handing errors
 app.use((error, req, res, next) => {
-  // status code not defined set to generic HTTP status code (500)
+  // if status code not defined set to generic HTTP status code (500)
   if (!error.statusCode) error.statusCode = 500;
   // redirect if route is not found
   if (error.statusCode === 301) {
