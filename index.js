@@ -27,6 +27,15 @@ app.get('/', (req, res) => {
   `);
 });
 
+// view all user records
+app.get('/view', (req, res) => {
+  res.status(200).send(`
+    <nav><a href="/">Home</a> | <a href="/view">View records</a></nav>
+    <h3>View email records 📧</h3>
+    ${getUserRecords()}
+  `);
+});
+
 // Add new user
 app.post('/add', async (req, res, next) => {
   try {
@@ -37,36 +46,15 @@ app.post('/add', async (req, res, next) => {
   }
 });
 
-// Display success message
-app.get('/success', (req, res) => {
-  const { message } = req.query;
-  res.status(200).send(`
-    <nav><a href="/">Home</a> | <a href="/view">View records</a></nav>
-    <h3>Success ⚠️</h3>
-    <p>User ${message}</p>
-  `)
-});
-
-// view all user records
-app.get('/view', (req, res) => {
-  res.status(200).send(`
-    <nav><a href="/">Home</a> | <a href="/view">View records</a></nav>
-    <h3>View email records 📧</h3>
-    ${getUserRecords()}
-  `);
-});
-
 // delete one record
-app.get('/delete', (req, res, next) => {
-  const id = Number(req.query.id);
-  const userExists = users.getData().find(item => item.id === id);
-  if (!userExists) {
-    const error = new Error(`Record with ID '${id}' does not exist`);
-    next(error);
+app.get('/delete', async (req, res, next) => {
+  try {
+    const id = Number(req.query.id);
+    await users.delete(id);
+    res.status(200).redirect('/success?message=deleted');
+  } catch(err) {
+    next(err);
   }
-  const updatedUsers = users.getData().filter(item => item.id !== id);
-  users.saveUsers(updatedUsers);
-  res.status(200).redirect('/success?message=deleted');
 });
 
 const getUserRecords = () => {
@@ -97,6 +85,16 @@ const getUserRecords = () => {
   output += '</tbody></table>';
   return output;
 }
+
+// Display success message
+app.get('/success', (req, res) => {
+  const { message } = req.query;
+  res.status(200).send(`
+    <nav><a href="/">Home</a> | <a href="/view">View records</a></nav>
+    <h3>Success ⚠️</h3>
+    <p>User ${message}</p>
+  `)
+});
 
 /*////////////////*/
 /* Error handling */

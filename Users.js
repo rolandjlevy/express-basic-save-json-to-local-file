@@ -15,12 +15,6 @@ class Users {
       this.counter = 0;
     }
   }
-  getLastId() {
-    return this.getData().reduce((acc, item) => {
-      if (Number(item.id) > acc) acc = item.id;
-      return acc;
-    }, 0);
-  }
   getData() {
     try {
       const fileContents = fs.readFileSync(this.filename);
@@ -38,6 +32,9 @@ class Users {
     }
   }
   add(formData) {
+    if (!formData) {
+      throw new Error(`No form data found`);
+    }
     const { name, email, message, subscribe } = formData;
     const user = {
       id: ++this.counter, 
@@ -47,8 +44,22 @@ class Users {
       subscribe: subscribe ? '✅' : '',
       added: new Date()
     };
-    const existingData = [ ...this.getData(), user];
-    this.saveData(existingData);
+    const updatedData = [ ...this.getData(), user];
+    this.saveData(updatedData);
+  }
+  delete(id) {
+    const userExists = this.getData().find(item => item.id === id);
+    if (!userExists) {
+      throw new Error(`Record with ID '${id}' does not exist`);
+    }
+    const updatedUsers = this.getData().filter(item => item.id !== id);
+    this.saveData(updatedUsers);
+  }
+  getLastId() {
+    return this.getData().reduce((acc, item) => {
+      if (Number(item.id) > acc) acc = item.id;
+      return acc;
+    }, 0);
   }
 }
 
