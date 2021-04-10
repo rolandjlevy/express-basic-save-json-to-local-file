@@ -6,25 +6,29 @@ require('dotenv').config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.set('view engine', 'ejs');
+app.use(express.static('public'))
+
 const port = process.env.PORT || 3000;
 
-const Users = require('./Users.js');
+const Users = require('./src/Users.js');
 const users = new Users();
 
 app.get('/', (req, res) => {
-  res.status(200).send(`
-    <nav><a href="/">Home</a> | <a href="/view">View records</a></nav>
-    <h3>Subscribe to our Newsletter 📝</h3>
-    <form method="post" action="/add">
-    <ul>
-      <li><label for="name">👨‍💼 Name</label> <input type="text"  id="name" name="name" value="Roland Levy" placeholder="Your name..."  required /></li>
-      <li><label for="email">📧 Email</label> <input type="email" id="email" name="email" value="rolandjlevy@gmail.com" placeholder="Your email..." required /></li>
-      <li><label for="message">💬 Message</label> <textarea id="message" name="message" placeholder="Your message..." required>Hello world</textarea></li>
-      <li><label for="subscribe">🔔 Subscribe</label> <input type="checkbox" id="subscribe" name="subscribe" /></li>
-    </ul>
-    <input type="submit" value="Submit">
-    </form>
-  `);
+  res.render('pages/index');
+  // res.status(200).send(`
+  //   <nav><a href="/">Home</a> | <a href="/view">View records</a></nav>
+  //   <h3>Subscribe to our Newsletter 📝</h3>
+  //   <form method="post" action="/add">
+  //   <ul>
+  //     <li><label for="name">👨‍💼 Name</label> <input type="text"  id="name" name="name" value="Roland Levy" placeholder="Your name..."  required /></li>
+  //     <li><label for="email">📧 Email</label> <input type="email" id="email" name="email" value="rolandjlevy@gmail.com" placeholder="Your email..." required /></li>
+  //     <li><label for="message">💬 Message</label> <textarea id="message" name="message" placeholder="Your message..." required>Hello world</textarea></li>
+  //     <li><label for="subscribe">🔔 Subscribe</label> <input type="checkbox" id="subscribe" name="subscribe" /></li>
+  //   </ul>
+  //   <input type="submit" value="Submit">
+  //   </form>
+  // `);
 });
 
 // view all user records
