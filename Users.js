@@ -1,5 +1,6 @@
 const fs = require("fs");
 require('dotenv').config();
+const { promisify } = require('util'); // transforms callbacks into promises
 
 class Users {
   constructor() {
@@ -10,7 +11,7 @@ class Users {
     if (fs.existsSync(this.filename)) {
       this.counter = this.getLastId();
     } else {
-      this.saveUsers([]);
+      this.saveData([]);
       this.counter = 0;
     }
   }
@@ -29,15 +30,15 @@ class Users {
       console.log(err);
     }
   }
-  saveUsers(data) {
+  saveData(data) {
     try {
       fs.writeFileSync(this.filename, JSON.stringify(data));
     } catch(err) {
       console.log(err);
     }
   }
-  add(data) {
-    const { name, email, message, subscribe } = data;
+  add(formData) {
+    const { name, email, message, subscribe } = formData;
     const user = {
       id: ++this.counter, 
       name, 
@@ -47,7 +48,7 @@ class Users {
       added: new Date()
     };
     const existingData = [ ...this.getData(), user];
-    this.saveUsers(existingData);
+    this.saveData(existingData);
   }
 }
 

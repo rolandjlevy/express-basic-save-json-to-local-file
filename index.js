@@ -1,55 +1,15 @@
 const express = require('express');
 const app = express();
-const fs = require("fs");
-const { promisify } = require('util'); // transforms callbacks into promises
 const dateFormat = require('dateformat');
 require('dotenv').config();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const filename = './' + process.env.FILENAME;
 const port = process.env.PORT || 3000;
 
 const Users = require('./Users.js');
 const users = new Users();
-
-// const getData = () => {
-//   try {
-//     const fileContents = fs.readFileSync(filename);
-//     const data = JSON.parse(fileContents);
-//     return data.sort((a, b) => new Date(b.added) - new Date(a.added));
-//   } catch(err) {
-//     console.log(err);
-//   }
-// };
-
-// const saveUsers = async (data) => {
-//   try {
-//     await fs.writeFileSync(filename, JSON.stringify(data));
-//   } catch(err) {
-//     console.log(err);
-//   }
-// }
-
-// const getLastId = () => {
-//   return getData().reduce((acc, item) => {
-//     if (Number(item.id) > acc) acc = item.id;
-//     return acc;
-//   }, 0);
-// }
-
-// let counter;
-
-// const init = () => {
-//   if (fs.existsSync(filename)) {
-//     counter = getLastId();
-//   } else {
-//     saveUsers([]);
-//     counter = 0;
-//   }
-// }
-// init();
 
 app.get('/', (req, res) => {
   res.status(200).send(`
@@ -68,17 +28,31 @@ app.get('/', (req, res) => {
 });
 
 // Add new user
-app.post('/add', async (req, res) => {
-  users.add(req.body);
+app.post('/add', async (req, res, next) => {
+  try {
+    await users.add(req.body);
+    res.status(200).redirect('/success?message=added');
+  } catch(err) {
+    next(err);
+  }
+});
+
+// Display success message
+app.get('/success', (req, res) => {
+  const { message } = req.query;
+  res.status(200).send(`
+    <nav><a href="/">Home</a> | <a href="/view">View records</a></nav>
+    <h3>Success ⚠️</h3>
+    <p>User ${message}</p>
+  `)
 });
 
 // view all user records
 app.get('/view', (req, res) => {
   res.status(200).send(`
-    <h3>Subscribe to our Newsletter 📝</h3>
-    <p>View records:</p>
+    <nav><a href="/">Home</a> | <a href="/view">View records</a></nav>
+    <h3>View email records 📧</h3>
     ${getUserRecords()}
-    <p><a href="/">← Home</a></p>
   `);
 });
 
@@ -92,7 +66,7 @@ app.get('/delete', (req, res, next) => {
   }
   const updatedUsers = users.getData().filter(item => item.id !== id);
   users.saveUsers(updatedUsers);
-  res.status(200).redirect('/view');
+  res.status(200).redirect('/success?message=deleted');
 });
 
 const getUserRecords = () => {
@@ -130,8 +104,7 @@ const getUserRecords = () => {
 
 // page not found
 app.get('/not-found', (req, res) => {
-  // res.render('pageNotFound.ejs')
-  res.status(200).send('Page not found');
+  res.status(200).send('Page not found'); // res.render('pageNotFound.ejs')
 });
 
 // error page
