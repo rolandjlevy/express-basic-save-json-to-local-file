@@ -15,8 +15,14 @@ const port = process.env.PORT || 3000;
 const Users = require('./src/Users.js');
 const users = new Users();
 
+// home page
 app.get('/', (req, res) => {
   res.render('pages/index');
+});
+
+// add a new user
+app.get('/contact-us', (req, res) => {
+  res.render('pages/contact-us');
 });
 
 // view full list of users
@@ -24,25 +30,25 @@ app.get('/view', (req, res) => {
   res.render('pages/view-users', { users:users.getData(), dateFormat });
 });
 
+// Validation / sanitization settings for user input
 const validation = [
   check('name').not().isEmpty().trim().escape().isLength({ min:3, max:64 }),
   check('email').isEmail().normalizeEmail().isLength({ min:3, max:64 }),
   check('message').not().isEmpty().trim().escape().isLength({ min:3, max:512 })
 ];
 
-// Add new user
-app.post('/add', validation, async (req, res, next) => {
+// Posted data for adding new user
+app.post('/contact-form', validation, async (req, res, next) => {
   try {
-    // Extracts validation errors from request and makes them available in a Result object
+    // validationResult extracts validation errors from request and makes them available in a Result object
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const error = new Error(`Invalid input - please try again`);
       error.statusCode = 422; // Unprocessable Entity
       next(error);
     }
-    const name = req.body.name;
     await users.add(req.body);
-    res.render('pages/success', { message:'added', name });
+    res.render('pages/success', { message:'added', name: req.body.name });
   } catch(err) {
     next(err);
   }

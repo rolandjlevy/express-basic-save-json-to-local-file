@@ -1,30 +1,50 @@
 :root {
   --nav-height: 60px;
-  --primary-blue-light: hsl(200, 100%, 45%);
-  --primary-blue-mid: hsl(200, 100%, 40%);
-  --primary-blue-dark: hsl(200, 100%, 35%);
+  --primary-blue-light: hsl(185, 100%, 41%);
+  --primary-blue-mid: hsl(185, 100%, 40%);
+  --primary-blue-dark: hsl(185, 100%, 30%);
+  --primary-blue-deep: hsl(185, 50%, 20%);
 }
 
 *, *:before, *:after {
   box-sizing: border-box;
   font-family: 'Nunito', 'Open Sans', sans-serif;
+  font-size: 1rem;
 }
 
 h1, h2, h3, h4 {
   font-family: 'Elsie Swash Caps', cursive;
   margin: 0;
-  color: var(--primary-blue-dark);
+}
+
+h1 {
+  color: #fff;
+  font-size: 3rem;
   text-align: center;
+}
+
+h2 {
+  color: var(--primary-blue-dark);
+  font-size: 2rem;
+}
+
+p {
+  color: #fff;
 }
 
 body {
   font-size: 1rem;
-  background: linear-gradient(7deg, 
-  #fff, 
-  var(--primary-blue-mid)
-  );
+  background: linear-gradient(7deg, #fff, var(--primary-blue-mid));
   margin: 0;
   padding: 0;
+}
+
+body.home {
+  background: url(images/bakery.jpg);
+}
+
+body.contact-us {
+  background: url(images/croissants.jpg);
 }
 
 nav {
@@ -48,10 +68,10 @@ nav {
 }
 
 .subscribe-form {
-  background-color: #fff;
-  border-radius: 5px;
+  background-color: #ffffffcc;
+  border-radius: 10px;
   padding: 30px;
-  box-shadow: 0 10px 30px 10px #00000033;
+  box-shadow: 0 10px 40px 10px #00000033;
   margin-top: calc(var(--nav-height) + 40px);
 }
 
@@ -88,15 +108,15 @@ li > input[type=text],
 li > input[type=email],
 li > textarea {
   padding: 10px;
+  font-size: inherit;
   width: 100%;
-  background-color: #eee;
+  background-color: #fff;
   border: none;
 }
 
-li > textarea,
 li > label {
-  font-size: 0.75rem;
-  color: #666;
+  font-size: 0.875rem;
+  color: var(--primary-blue-deep);
 }
 
 li > input[type=text] + label,
@@ -124,11 +144,12 @@ li > input[type=checkbox] {
 .btn {
   display: inline-block;
   padding: 10px;
+  text-align: center;
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 800;
-  border-radius: 3px;
+  border-radius: 5px;
   border: none;
   transition: background 0.2s ease;
   cursor: pointer;
