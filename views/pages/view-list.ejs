@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+  <h3 class="">View email list</h3>
+  <section>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Message</th>
+          <th>Subscribed?</th>
+          <th>Date / Time added</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% users.forEach(item => { 
+        const date = new Date(item.added);
+      %>
+      <tr>
+        <td><%= item.name %></td>
+        <td><%= item.email %></td>
+        <td><%= item.message %></td>
+        <td><%= item.subscribe %></td>
+        <td><%= dateFormat(date, 'GMT:dd/mm/yyyy, h:MM:ss TT') %></td>
+        <td><a href="/delete?id=<%= item.id %>&name=<%= item.name %>">Delete</a></td>
+      </tr>
+      <%
+        });
+      %>
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>
+<script src="script.js"></script>
+
+</body>
+</html>

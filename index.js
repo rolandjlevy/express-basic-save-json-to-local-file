@@ -16,35 +16,19 @@ const users = new Users();
 
 app.get('/', (req, res) => {
   res.render('pages/index');
-  // res.status(200).send(`
-  //   <nav><a href="/">Home</a> | <a href="/view">View records</a></nav>
-  //   <h3>Subscribe to our Newsletter 📝</h3>
-  //   <form method="post" action="/add">
-  //   <ul>
-  //     <li><label for="name">👨‍💼 Name</label> <input type="text"  id="name" name="name" value="Roland Levy" placeholder="Your name..."  required /></li>
-  //     <li><label for="email">📧 Email</label> <input type="email" id="email" name="email" value="rolandjlevy@gmail.com" placeholder="Your email..." required /></li>
-  //     <li><label for="message">💬 Message</label> <textarea id="message" name="message" placeholder="Your message..." required>Hello world</textarea></li>
-  //     <li><label for="subscribe">🔔 Subscribe</label> <input type="checkbox" id="subscribe" name="subscribe" /></li>
-  //   </ul>
-  //   <input type="submit" value="Submit">
-  //   </form>
-  // `);
 });
 
-// view all user records
+// view email list
 app.get('/view', (req, res) => {
-  res.status(200).send(`
-    <nav><a href="/">Home</a> | <a href="/view">View records</a></nav>
-    <h3>View email records 📧</h3>
-    ${getUserRecords()}
-  `);
+  res.render('pages/view-list', { users:users.getData(), dateFormat });
 });
 
 // Add new user
 app.post('/add', async (req, res, next) => {
   try {
+    const name = req.body.name;
     await users.add(req.body);
-    res.status(200).redirect('/success?message=added');
+    res.render('pages/success', { message:'added', name });
   } catch(err) {
     next(err);
   }
@@ -53,51 +37,12 @@ app.post('/add', async (req, res, next) => {
 // delete one record
 app.get('/delete', async (req, res, next) => {
   try {
-    const id = Number(req.query.id);
-    await users.delete(id);
-    res.status(200).redirect('/success?message=deleted');
+    const { id, name } = req.query;
+    await users.delete(Number(id));
+    res.render('pages/success', { message:'deleted', name });
   } catch(err) {
     next(err);
   }
-});
-
-const getUserRecords = () => {
-  let output = `
-  <table border="1">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Message</th>
-        <th>Subscribed?</th>
-        <th>Date / Time added</th>
-        <th>&nbsp;</th>
-      </tr>
-    </thead>
-    <tbody>`;
-  users.getData().forEach(item => {
-    const date = new Date(item.added);
-    output += `<tr>
-      <td>${item.name}</td>
-      <td>${item.email}</td>
-      <td>${item.message}</td>
-      <td>${item.subscribe}</td>
-      <td>${dateFormat(date, 'GMT:dd/mm/yyyy, h:MM:ss TT')}</td>
-      <td><a href="/delete?id=${item.id}">Delete</a></td>
-    </tr>`;
-  });
-  output += '</tbody></table>';
-  return output;
-}
-
-// Display success message
-app.get('/success', (req, res) => {
-  const { message } = req.query;
-  res.status(200).send(`
-    <nav><a href="/">Home</a> | <a href="/view">View records</a></nav>
-    <h3>Success ⚠️</h3>
-    <p>User ${message}</p>
-  `)
 });
 
 /*////////////////*/
@@ -106,13 +51,8 @@ app.get('/success', (req, res) => {
 
 // page not found
 app.get('/not-found', (req, res) => {
-  res.status(200).send('Page not found'); // res.render('pageNotFound.ejs')
-});
-
-// error page
-app.get('/error', (req, res) => {
-  // res.render('errorPage.ejs')
-  res.status(200).send('Error');
+  res.status(404);
+  res.render('pages/not-found');
 });
 
 // wildcard route throws not found error
@@ -130,9 +70,9 @@ app.use((error, req, res, next) => {
   if (error.statusCode === 301) {
     return res.status(301).redirect('/not-found');
   }
-  // render error message
-  return res.status(error.statusCode).json({ message: error.toString() });
-  // res.render('errorPage.ejs', { error: error.toString() }) 
+  // render error page
+  res.status(error.statusCode);
+  res.render('pages/error', { error: error.toString() })
 });
 
 app.listen(port, () => console.log('Listening on port', port));

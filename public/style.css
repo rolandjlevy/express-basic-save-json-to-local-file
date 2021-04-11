@@ -1,11 +1,19 @@
 :root {
 }
 
-* {
-  font-family: 'Open Sans', sans-serif;
+*, *:before, *:after {
   box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
 }
 
 body {
+  font-size: 1rem;
   margin: 1rem;
+}
+
+.new-tab-icon::after {
+  font-family: "Font Awesome 5 Free"; 
+  font-weight: 900; 
+  content: "\f35d";
+  margin-left: 5px;
 }
