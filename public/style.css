@@ -15,7 +15,7 @@ h1, h2, h3, h4 {
 
 body {
   font-size: 1rem;
-  background: linear-gradient(7deg, #ffc853, #c4da00 40%, #00718d);
+  background: linear-gradient(7deg, #ff5353, #ffc853 50%, #0082ec);
   margin: 0;
   padding: 0;
 }
@@ -42,7 +42,7 @@ nav {
   background-color: #fff;
   border-radius: 5px;
   padding: 30px;
-  box-shadow: 0 10px 20px 10px #00330033;
+  box-shadow: 0 10px 30px 10px #00330033;
 }
 
 /********/
@@ -65,22 +65,65 @@ li {
 }
 
 li:not(:last-child) {
-  margin-bottom: 25px;
+  margin-bottom: 40px;
 }
 
 li > input,
 li > textarea {
-  padding: 5px;
+  padding: 10px;
   width: 100%;
+  background-color: #eee;
+  border: none;
 }
 
-input + label,
-textarea + label {
+li > input + label,
+li > textarea + label {
   position: absolute;
   left: 0;
-  top: -15px;
+  top: -20px;
   font-size: 0.75rem;
+  color: #666;
 }
+
+li > label > span.required {
+  color: red;
+  font-weight: bold;
+}
+
+/***********/
+/* Buttons */
+/***********/
+
+.btn {
+  display: inline-block;
+  padding: 10px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 800;
+  border-radius: 3px;
+  border: none;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: #008cff;
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: #0074d3;
+}
+
+.btn.secondary {
+  background: #9b9b9b;
+  color: #000;
+}
+
+/**********/
+/* Layout */
+/**********/
 
 .m-b-20 {
   margin-bottom: 20px;
@@ -117,11 +160,4 @@ textarea + label {
 
 .trash:hover::after {
   background-color: #000;
-}
-
-.btn {
-  display: inline-block;
-  padding: 4px 8px;
-  background: grey;
-  text-decoration: none;
 }
