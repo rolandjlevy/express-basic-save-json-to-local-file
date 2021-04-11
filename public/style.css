@@ -4,7 +4,8 @@
   --primary-blue-mid-light: hsl(185, 100%, 50%);
   --primary-blue-mid: hsl(185, 100%, 40%);
   --primary-blue-dark: hsl(185, 100%, 30%);
-  --primary-blue-deep: hsl(185, 50%, 20%);
+  --primary-blue-darker: hsl(185, 50%, 20%);
+  --primary-blue-deep: hsl(185, 50%, 15%);
 }
 
 *, *:before, *:after {
@@ -37,7 +38,7 @@ nav {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 20px;
+  padding: 20px 20px 10px 20px;
   box-shadow: 0 10px 20px 0 #00000022;
   white-space: nowrap;
 }
@@ -85,12 +86,12 @@ h1 {
 }
 
 h2 {
-  color: var(--primary-blue-deep);
+  color: var(--primary-blue-darker);
   font-size: 2rem;
 }
 
 p {
-  color: var(--primary-blue-deep);
+  color: var(--primary-blue-darker);
   line-height: 1.5;
 }
 
@@ -144,7 +145,7 @@ li > textarea {
 
 li > label {
   font-size: 0.875rem;
-  color: var(--primary-blue-deep);
+  color: var(--primary-blue-darker);
 }
 
 li > input[type=text] + label,
@@ -236,6 +237,7 @@ table.inquiries td:not(:last-child) {
 .btn.nav-link {
   background: #333;
   padding: 5px 10px;
+  margin-bottom: 10px;
   color: var(--primary-blue-mid-light);
   height: 30px;
   font-size: 0.875rem;
@@ -274,7 +276,7 @@ table.inquiries td:not(:last-child) {
 
 .icon.edit::after {
   content: "\f044";
-  color: var(--primary-blue-deep);
+  color: var(--primary-blue-darker);
   font-size: 2rem;
 }
 
@@ -301,7 +303,7 @@ table.inquiries td:not(:last-child) {
 
 .icon.trash::after {
   content: "\f2ed";
-  color: var(--primary-blue-deep);
+  color: var(--primary-blue-darker);
   padding: 5px;
   border-radius: 2px;
   transition: background-color 0.25s ease;
