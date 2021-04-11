@@ -7,19 +7,100 @@
 }
 
 h1, h2, h3, h4 {
-  /* font-family: 'Londrina Solid', cursive; */
   font-family: 'Elsie Swash Caps', cursive;
+  margin: 0;
+  color: #00718d;
+  text-align: center;
 }
 
 body {
   font-size: 1rem;
-  margin: 1rem;
+  background: linear-gradient(7deg, #ffc853, #c4da00 40%, #00718d);
+  margin: 0;
+  padding: 0;
 }
+
+nav {
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  padding: 20px;
+}
+
+.container {
+  margin: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+.subscribe-form {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 30px;
+  box-shadow: 0 10px 20px 10px #00330033;
+}
+
+/********/
+/* Form */
+/********/
+
+ul, li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+ul {
+  padding: 20px 0 0 0;
+  margin: 0;
+}
+
+li {
+  position: relative;
+}
+
+li:not(:last-child) {
+  margin-bottom: 25px;
+}
+
+li > input,
+li > textarea {
+  padding: 5px;
+  width: 100%;
+}
+
+input + label,
+textarea + label {
+  position: absolute;
+  left: 0;
+  top: -15px;
+  font-size: 0.75rem;
+}
+
+.m-b-20 {
+  margin-bottom: 20px;
+}
+
+/************/
+/* FA icons */
+/************/
 
 .new-tab-icon::after {
   font-family: "Font Awesome 5 Free"; 
   font-weight: 900; 
   content: "\f35d";
+  margin-left: 5px;
+}
+
+.tick::after {
+  font-family: "Font Awesome 5 Free"; 
+  font-weight: 900;
+  content: "\f14a";
   margin-left: 5px;
 }
 

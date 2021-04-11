@@ -9,7 +9,7 @@
   <%- include('../partials/header'); %>
 </header>
 
-<main>
+<main class="container">
   <h2 class="">All users</h2>
   <section>
     <table border="1">
@@ -31,7 +31,7 @@
         <td><%= item.name %></td>
         <td><%= item.email %></td>
         <td><%= item.message %></td>
-        <td><%= item.subscribe %></td>
+        <td><span class="<%= item.subscribe %>"></span></td>
         <td><%= dateFormat(date, 'GMT:dd/mm/yyyy, h:MM:ss TT') %></td>
         <td><a href="/delete?id=<%= item.id %>&name=<%= item.name %>" class=""><span class="trash"></span></a></td>
       </tr>

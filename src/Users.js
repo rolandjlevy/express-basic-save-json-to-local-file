@@ -41,7 +41,7 @@ class Users {
       name, 
       email,
       message,
-      subscribe: subscribe ? '✅' : '',
+      subscribe: subscribe ? 'tick' : '',
       added: new Date()
     };
     const updatedData = [ ...this.getData(), user];

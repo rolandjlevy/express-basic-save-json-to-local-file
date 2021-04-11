@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const dateFormat = require('dateformat');
+const { check, body, validationResult } = require('express-validator');
 require('dotenv').config();
 
 app.use(express.urlencoded({ extended: true }));
@@ -23,9 +24,22 @@ app.get('/view', (req, res) => {
   res.render('pages/view-users', { users:users.getData(), dateFormat });
 });
 
+const validation = [
+  check('name').not().isEmpty().trim().escape().isLength({ min:3, max:64 }),
+  check('email').isEmail().normalizeEmail().isLength({ min:3, max:64 }),
+  check('message').not().isEmpty().trim().escape().isLength({ min:3, max:512 })
+];
+
 // Add new user
-app.post('/add', async (req, res, next) => {
+app.post('/add', validation, async (req, res, next) => {
   try {
+    // Extracts validation errors from request and makes them available in a Result object
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error(`Invalid input - please try again`);
+      error.statusCode = 422; // Unprocessable Entity
+      next(error);
+    }
     const name = req.body.name;
     await users.add(req.body);
     res.render('pages/success', { message:'added', name });
