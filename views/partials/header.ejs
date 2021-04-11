@@ -1,5 +1,10 @@
-<nav class="">
-  <a href="/">Tasty Treats</a> |
-  <a href="/contact-us">Contact us</a> | 
-  <a href="/view">View all users</a>
+<% 
+function selectedLink(currentUrl) {
+  return currentUrl === url ? ' selected' : '';
+} 
+%>
+<nav>
+  <a href="/" class="btn nav-link<%= selectedLink('/') %>">Home<span class="icon home m-l-5"></span></a>
+  <a href="/inquiry" class="btn nav-link<%= selectedLink('/inquiry') %>">Send inquiry<span class="icon inquiry m-l-5"></span></a>
+  <a href="/view-inquiries" class="btn nav-link<%= selectedLink('/view-inquiries') %>">View inquiries<span class="icon view m-l-5"></span></a>
 </nav>

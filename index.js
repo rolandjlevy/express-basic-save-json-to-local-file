@@ -15,35 +15,45 @@ const port = process.env.PORT || 3000;
 const Users = require('./src/Users.js');
 const users = new Users();
 
+// middleware to capture current url
+app.use((req, res, next) =>  {
+  res.locals.url = req.originalUrl;
+  next();
+});
+
 // home page
 app.get('/', (req, res) => {
-  res.render('pages/index');
+  res.render('pages/index', { url:res.locals.url });
 });
 
 // add a new user
-app.get('/contact-us', (req, res) => {
-  res.render('pages/contact-us');
+app.get('/inquiry', (req, res) => {
+  res.render('pages/inquiry', { url:res.locals.url });
 });
 
 // view full list of users
-app.get('/view', (req, res) => {
-  res.render('pages/view-users', { users:users.getData(), dateFormat });
+app.get('/view-inquiries', (req, res) => {
+  res.render('pages/view-inquiries', { 
+    url:res.locals.url, 
+    users:users.getData(), 
+    dateFormat 
+  });
 });
 
 // Validation / sanitization settings for user input
 const validation = [
   check('name').not().isEmpty().trim().escape().isLength({ min:3, max:64 }),
-  check('email').isEmail().normalizeEmail().isLength({ min:3, max:64 }),
+  check('email').not().isEmpty().trim().isEmail().isLength({ max:64 }),
   check('message').not().isEmpty().trim().escape().isLength({ min:3, max:512 })
 ];
 
 // Posted data for adding new user
-app.post('/contact-form', validation, async (req, res, next) => {
+app.post('/inquiry-form', validation, async (req, res, next) => {
   try {
     // validationResult extracts validation errors from request and makes them available in a Result object
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      const error = new Error(`Invalid input - please try again`);
+      const error = new Error(`Invalid input. Your name and message must be at least 3 characters and you must provide a valid email address.`);
       error.statusCode = 422; // Unprocessable Entity
       next(error);
     }
@@ -90,6 +100,7 @@ app.use((error, req, res, next) => {
   if (error.statusCode === 301) {
     return res.status(301).redirect('/not-found');
   }
+  console.log('middleware')
   // render error page
   res.status(error.statusCode);
   res.render('pages/error', { error: error.toString() })

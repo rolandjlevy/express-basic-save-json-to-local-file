@@ -1,10 +1,9 @@
 const fs = require("fs");
 require('dotenv').config();
-const { promisify } = require('util'); // transforms callbacks into promises
 
 class Users {
   constructor() {
-    this.filename = './' + process.env.FILENAME;
+    this.filename = './data/' + process.env.FILENAME;
     this.init();
   }
   init() {

@@ -10,9 +10,9 @@
 </header>
 
 <main class="container">
-  <h2 class="">All users</h2>
-  <section>
-    <table border="1">
+  <h2 class="m-b-20">View inquiries</h2>
+  <section class="inquiries-wrapper">
+    <table class="inquiries">
       <thead>
         <tr>
           <th>Name</th>
@@ -31,9 +31,9 @@
         <td><%= item.name %></td>
         <td><%= item.email %></td>
         <td><%= item.message %></td>
-        <td><span class="<%= item.subscribe %>"></span></td>
+        <td class="text-center"><span class="icon <%= item.subscribe %>"></span></td>
         <td><%= dateFormat(date, 'GMT:dd/mm/yyyy, h:MM:ss TT') %></td>
-        <td><a href="/delete?id=<%= item.id %>&name=<%= item.name %>" class=""><span class="trash"></span></a></td>
+        <td><a href="/delete?id=<%= item.id %>&name=<%= item.name %>"><span class="icon trash"></span></a></td>
       </tr>
       <%
         });
