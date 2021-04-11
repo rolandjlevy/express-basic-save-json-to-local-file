@@ -1,4 +1,8 @@
 :root {
+  --nav-height: 60px;
+  --primary-blue-light: hsl(200, 100%, 45%);
+  --primary-blue-mid: hsl(200, 100%, 40%);
+  --primary-blue-dark: hsl(200, 100%, 35%);
 }
 
 *, *:before, *:after {
@@ -9,13 +13,16 @@
 h1, h2, h3, h4 {
   font-family: 'Elsie Swash Caps', cursive;
   margin: 0;
-  color: #00718d;
+  color: var(--primary-blue-dark);
   text-align: center;
 }
 
 body {
   font-size: 1rem;
-  background: linear-gradient(7deg, #ff5353, #ffc853 50%, #0082ec);
+  background: linear-gradient(7deg, 
+  #fff, 
+  var(--primary-blue-mid)
+  );
   margin: 0;
   padding: 0;
 }
@@ -26,11 +33,13 @@ nav {
   top: 0;
   left: 0;
   width: 100vw;
+  height: 60px;
   padding: 20px;
+  box-shadow: 0 10px 20px 0 #00000022;
 }
 
 .container {
-  margin: 1rem;
+  margin: 0 30px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -42,7 +51,14 @@ nav {
   background-color: #fff;
   border-radius: 5px;
   padding: 30px;
-  box-shadow: 0 10px 30px 10px #00330033;
+  box-shadow: 0 10px 30px 10px #00000033;
+  margin-top: calc(var(--nav-height) + 40px);
+}
+
+@media only screen and (min-width: 600px) {
+  .subscribe-form {
+    min-width: 400px;
+  }
 }
 
 /********/
@@ -65,10 +81,11 @@ li {
 }
 
 li:not(:last-child) {
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
 }
 
-li > input,
+li > input[type=text],
+li > input[type=email],
 li > textarea {
   padding: 10px;
   width: 100%;
@@ -76,18 +93,28 @@ li > textarea {
   border: none;
 }
 
-li > input + label,
+li > textarea,
+li > label {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+li > input[type=text] + label,
+li > input[type=email] + label,
 li > textarea + label {
   position: absolute;
   left: 0;
   top: -20px;
-  font-size: 0.75rem;
-  color: #666;
 }
 
 li > label > span.required {
   color: red;
   font-weight: bold;
+}
+
+li > label,
+li > input[type=checkbox] {
+  cursor: pointer;
 }
 
 /***********/
@@ -105,28 +132,21 @@ li > label > span.required {
   border: none;
   transition: background 0.2s ease;
   cursor: pointer;
+  width: 100%;
 }
 
 .btn.primary {
-  background: #008cff;
+  background: var(--primary-blue-mid);
   color: #fff;
 }
 
 .btn.primary:hover {
-  background: #0074d3;
+  background: var(--primary-blue-dark);
 }
 
 .btn.secondary {
   background: #9b9b9b;
   color: #000;
-}
-
-/**********/
-/* Layout */
-/**********/
-
-.m-b-20 {
-  margin-bottom: 20px;
 }
 
 /************/
@@ -161,3 +181,24 @@ li > label > span.required {
 .trash:hover::after {
   background-color: #000;
 }
+
+/**********/
+/* Layout */
+/**********/
+
+.m-b-10 {
+  margin-bottom: 10px;
+}
+
+.m-b-20 {
+  margin-bottom: 20px;
+}
+
+.m-b-30 {
+  margin-bottom: 30px;
+}
+
+.m-b-40 {
+  margin-bottom: 40px;
+}
+
