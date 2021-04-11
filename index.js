@@ -11,6 +11,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
 const port = process.env.PORT || 3000;
+const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY;
 
 const Users = require('./src/Users.js');
 const users = new Users();
@@ -28,7 +29,7 @@ app.get('/', (req, res) => {
 
 // add a new user
 app.get('/inquiry', (req, res) => {
-  res.render('pages/inquiry', { url:res.locals.url });
+  res.render('pages/inquiry', { url:res.locals.url, recaptchaSiteKey });
 });
 
 // view full list of users
@@ -50,17 +51,21 @@ const validation = [
 // Posted data for adding new user
 app.post('/inquiry-form', validation, async (req, res, next) => {
   try {
-    // validationResult extracts validation errors from request and makes them available in a Result object
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const error = new Error(`Invalid input. Your name and message must be at least 3 characters and you must provide a valid email address.`);
       error.statusCode = 422; // Unprocessable Entity
       next(error);
     }
+    if (!req.body['g-recaptcha-response']) {
+      const error = new Error(`Invalid recaptcha. You cannot submit your inquiry unless you confirm that you are NOT a robot.`);
+      error.statusCode = 422; // Unprocessable Entity
+      next(error);
+    }
     await users.add(req.body);
     res.render('pages/success', { message:'added', name: req.body.name });
-  } catch(err) {
-    next(err);
+  } catch(error) {
+    next(error);
   }
 });
 
@@ -100,7 +105,6 @@ app.use((error, req, res, next) => {
   if (error.statusCode === 301) {
     return res.status(301).redirect('/not-found');
   }
-  console.log('middleware')
   // render error page
   res.status(error.statusCode);
   res.render('pages/error', { error: error.toString() })
