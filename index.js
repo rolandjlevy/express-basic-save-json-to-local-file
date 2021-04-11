@@ -7,7 +7,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.set('view engine', 'ejs');
-app.use(express.static('public'))
+app.use(express.static(__dirname + '/public'));
 
 const port = process.env.PORT || 3000;
 
@@ -18,9 +18,9 @@ app.get('/', (req, res) => {
   res.render('pages/index');
 });
 
-// view email list
+// view full list of users
 app.get('/view', (req, res) => {
-  res.render('pages/view-list', { users:users.getData(), dateFormat });
+  res.render('pages/view-users', { users:users.getData(), dateFormat });
 });
 
 // Add new user
