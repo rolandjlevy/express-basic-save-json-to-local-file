@@ -16,7 +16,7 @@ const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY;
 const Users = require('./src/Users.js');
 const users = new Users();
 
-// middleware to capture current url
+// middleware to capture current url for nav links
 app.use((req, res, next) =>  {
   res.locals.url = req.originalUrl;
   next();
@@ -27,12 +27,12 @@ app.get('/', (req, res) => {
   res.render('pages/index', { url:res.locals.url });
 });
 
-// add a new user
+// submit an inquiry page
 app.get('/inquiry', (req, res) => {
   res.render('pages/inquiry', { url:res.locals.url, recaptchaSiteKey });
 });
 
-// view full list of users
+// view full list of inquiries
 app.get('/view-inquiries', (req, res) => {
   res.render('pages/view-inquiries', { 
     url:res.locals.url, 
@@ -41,14 +41,14 @@ app.get('/view-inquiries', (req, res) => {
   });
 });
 
-// Validation / sanitization settings for user input
+// validation / sanitization settings for user input
 const validation = [
   check('name').not().isEmpty().trim().escape().isLength({ min:3, max:64 }),
   check('email').not().isEmpty().trim().isEmail().isLength({ max:64 }),
   check('message').not().isEmpty().trim().escape().isLength({ min:3, max:512 })
 ];
 
-// Posted data for adding new user
+// Posted data for adding new inquiry
 app.post('/inquiry-form', validation, async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -69,7 +69,7 @@ app.post('/inquiry-form', validation, async (req, res, next) => {
   }
 });
 
-// delete one record
+// delete one inquiry
 app.get('/delete', async (req, res, next) => {
   try {
     const { id, name } = req.query;
@@ -90,7 +90,7 @@ app.get('/not-found', (req, res) => {
   res.render('pages/not-found');
 });
 
-// wildcard route throws not found error
+// wildcard route throws 301 error (redirect)
 app.get('*', (req, res, next) => {
   const error = new Error(`${req.ip} tried to access ${req.originalUrl}`);
   error.statusCode = 301;
