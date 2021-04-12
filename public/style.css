@@ -106,7 +106,7 @@ h2.darker {
 }
 
 p {
-  color: var(--primary-blue-dark);
+  color: var(--primary-blue-darker);
   line-height: 1.5;
 }
 
@@ -198,6 +198,7 @@ table.inquiries {
 table.inquiries > tbody > tr:nth-child(even) {
   background-color: #fff;
 }
+
 table.inquiries > tbody > tr:nth-child(odd) {
   background-color: #f3f3f3;
 }
@@ -313,6 +314,7 @@ table.inquiries td > span:first-child {
   color: var(--primary-blue-mid-light);
   height: 30px;
   font-size: 0.875rem;
+  box-shadow: 0 0 20px 0 #000;
 }
 
 .btn.nav-link:hover,

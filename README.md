@@ -1,6 +1,6 @@
 # Node / Express app: writing json to file
 
-Inquiry form made with Node, Express and EJS which reads data from and writes data to a json file. All inquiries can be viewed in a table with the newest one showing first and deleted one at a time. 
+Inquiry form made with Node, Express and EJS which reads data from and writes data to a json file. All inquiries can be viewed in a table with the newest one showing first. Each one can be deleted. 
 
 ## Links 🔗
 
@@ -19,8 +19,9 @@ Inquiry form made with Node, Express and EJS which reads data from and writes da
 - All the code was written from scratch
 
 ## Rsources used
-- [express-validator node package](https://express-validator.github.io/docs/) for validating and sanitizating user input, avoiding [XSS](https://book.hacktricks.xyz/pentesting-web/xss-cross-site-scripting)
-- [dateformat node package](https://www.npmjs.com/package/dateformat) to format the date
-- [unsplash images](https://unsplash.com/)
-- [fontawesome icons](https://fontawesome.com)
-- [CSS for mobile-friendly tables](https://uglyduck.ca/responsive-tables/)
+- [express-validator](https://express-validator.github.io/docs/) node package for validating / sanitizating input
+- [dateformat](https://www.npmjs.com/package/dateformat) node package to format the date
+- [recaptcha](https://developers.google.com/recaptcha) for protection against spam and abuse
+- [unsplash](https://unsplash.com/) royalty-free images
+- [fontawesome](https://fontawesome.com) free icons
+- [responsiveness for tables](https://uglyduck.ca/responsive-tables/) an elegant solution
