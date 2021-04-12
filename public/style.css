@@ -1,5 +1,5 @@
 :root {
-  --nav-height: 70px;
+  --nav-height: 80px;
   --primary-blue-light: hsl(185, 100%, 80%);
   --primary-blue-mid-light: hsl(185, 100%, 50%);
   --primary-blue-mid: hsl(185, 100%, 40%);
@@ -77,7 +77,7 @@ nav {
 
 @media only screen and (min-width: 300px) {
   :root {
-    --nav-height: 0px;
+    --nav-height: 20px;
   }
 }
 
@@ -148,6 +148,10 @@ li > textarea {
   width: 100%;
   background-color: #fff;
   border: none;
+}
+
+li > textarea {
+  min-height: 150px;
 }
 
 li > label {
@@ -231,7 +235,6 @@ table.inquiries td > span:first-child {
   body {
     overflow: initial;
   }
-
   .inquiries-wrapper {
     max-height: auto;
     overflow-y: initial;
@@ -258,6 +261,7 @@ table.inquiries td > span:first-child {
     padding-top: 35px;
     position: relative;
     width: 50%;
+    font-size: 0.875rem;
   }
   table.inquiries td:not(:last-child) {
     border-right: 1px solid #bbb;

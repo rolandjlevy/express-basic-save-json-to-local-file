@@ -12,34 +12,40 @@
 <main class="container">
   <h2 class="m-b-20">View inquiries</h2>
   <section class="inquiries-wrapper">
-    <table class="inquiries">
-      <thead>
+    <% if (!users.length) { %>
+      <p>No inquiries found</p>
+    <% } else { %>
+      <table class="inquiries">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Message</th>
+            <th>Subscribed?</th>
+            <th>Date / Time added</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% users.forEach(item => { 
+          const date = new Date(item.added);
+        %>
         <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Message</th>
-          <th>Subscribed?</th>
-          <th>Date / Time added</th>
-          <th>&nbsp;</th>
+          <td><span>Name</span><%= item.name %></td>
+          <td><span>Email</span><%= item.email %></td>
+          <td><span>Message</span><%= item.message %></td>
+          <td class="text-center"><span>Subscribed?</span><span class="icon <%= item.subscribe %>"></span></td>
+          <td><span>Date / Time</span><%= dateFormat(date, 'GMT:dd/mm/yyyy, h:MM:ss TT') %></td>
+          <td class="text-center"><span>Delete</span><a href="/delete?id=<%= item.id %>&name=<%= item.name %>"><span class="icon trash"></span></a></td>
         </tr>
-      </thead>
-      <tbody>
-      <% users.forEach(item => { 
-        const date = new Date(item.added);
-      %>
-      <tr>
-        <td><span>Name</span><%= item.name %></td>
-        <td><span>Email</span><%= item.email %></td>
-        <td><span>Message</span><%= item.message %></td>
-        <td class="text-center"><span>Subscribed?</span><span class="icon <%= item.subscribe %>"></span></td>
-        <td><span>Date / Time</span><%= dateFormat(date, 'GMT:dd/mm/yyyy, h:MM:ss TT') %></td>
-        <td class="text-center"><span>Delete</span><a href="/delete?id=<%= item.id %>&name=<%= item.name %>"><span class="icon trash"></span></a></td>
-      </tr>
+        <%
+          });
+        %>
+        </tbody>
+      </table>
       <%
-        });
+        }
       %>
-      </tbody>
-    </table>
   </section>
 </main>
 

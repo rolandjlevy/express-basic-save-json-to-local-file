@@ -63,7 +63,7 @@ app.post('/inquiry-form', validation, async (req, res, next) => {
       next(error);
     }
     await users.add(req.body);
-    res.render('pages/success', { message:'added', name: req.body.name });
+    res.render('pages/success', { message:'- your inquiry has been sent', name: req.body.name });
   } catch(error) {
     next(error);
   }
@@ -74,7 +74,7 @@ app.get('/delete', async (req, res, next) => {
   try {
     const { id, name } = req.query;
     await users.delete(Number(id));
-    res.render('pages/success', { message:'deleted', name });
+    res.render('pages/success', { message:'has been deleted from the database', name });
   } catch(err) {
     next(err);
   }
