@@ -56,11 +56,13 @@ app.post('/inquiry-form', validation, async (req, res, next) => {
       const error = new Error(`Invalid input. Your name and message must be at least 3 characters and you must provide a valid email address.`);
       error.statusCode = 422; // Unprocessable Entity
       next(error);
+      return;
     }
     if (!req.body['g-recaptcha-response']) {
       const error = new Error(`Invalid recaptcha. You cannot submit your inquiry unless you confirm that you are NOT a robot.`);
       error.statusCode = 422; // Unprocessable Entity
       next(error);
+      return;
     }
     await users.add(req.body);
     res.render('pages/success', { message:'- your inquiry has been sent', name: req.body.name });
