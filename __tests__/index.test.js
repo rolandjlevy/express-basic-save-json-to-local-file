@@ -2,6 +2,7 @@ const request = require("supertest");
 const app = require('../index');
 
 describe("GET endpoints", () => {
+  
   test("Root endpoint response with statusCode 200", () => {
     return request(app)
       .get("/")
@@ -9,17 +10,21 @@ describe("GET endpoints", () => {
         expect(response.statusCode).toBe(200);
       });
   });
-  // test("/delete endpoint response for req.query", () => {
-  //   return request(app)
-  //     .get('/delete')
-  //     .query({ id: 1 })
-  //     .expect(200, (err, res) => {
-  //       res.text.should.be.equal(1);
-  //     });
-  // });
+
+  test("/delete endpoint response for req.query", () => {
+    return request(app)
+      .get('/delete')
+      .query( {
+        id: '55'
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(500);
+      });
+  });
+
 });
 
-describe('POST endpoints', function() {
+describe('POST endpoints', () => {
   it('response with invalid input', () => {
     return request(app)
       .post('/inquiry-form')
