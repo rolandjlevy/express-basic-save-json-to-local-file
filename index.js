@@ -11,7 +11,6 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
-const port = process.env.PORT || 3000;
 const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY;
 
 const Users = require('./src/Users.js');
@@ -116,4 +115,4 @@ app.use((error, req, res, next) => {
   res.render('pages/error', { error: error.toString() })
 });
 
-app.listen(port, () => console.log('Listening on port', port));
+module.exports = app;
