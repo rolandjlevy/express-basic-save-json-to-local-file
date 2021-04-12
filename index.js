@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
-const dateFormat = require('dateformat');
-const { check, body, validationResult } = require('express-validator');
+const dateFormat = require('dateformat'); // date formatted
+const he = require('he'); // HTML entity encoder & decoder
+const { check, body, validationResult } = require('express-validator'); // user input validator / sanitizer
 require('dotenv').config();
 
 app.use(express.urlencoded({ extended: true }));
@@ -37,14 +38,15 @@ app.get('/view-inquiries', (req, res) => {
   res.render('pages/view-inquiries', { 
     url:res.locals.url, 
     users:users.getData(), 
-    dateFormat 
+    dateFormat,
+    he
   });
 });
 
 // validation / sanitization settings for user input
 const validation = [
-  check('name').not().isEmpty().trim().escape().isLength({ min:3, max:64 }),
-  check('email').not().isEmpty().trim().isEmail().isLength({ max:64 }),
+  check('name').not().isEmpty().trim().escape().isLength({ min:3, max:128 }),
+  check('email').not().isEmpty().trim().isEmail().isLength({ max:128 }),
   check('message').not().isEmpty().trim().escape().isLength({ min:3, max:512 })
 ];
 
@@ -65,7 +67,8 @@ app.post('/inquiry-form', validation, async (req, res, next) => {
       return;
     }
     await users.add(req.body);
-    res.render('pages/success', { message:'- your inquiry has been sent', name: req.body.name });
+    const name = he.decode(req.body.name);
+    res.render('pages/success', { message:'- your inquiry has been sent', name });
   } catch(error) {
     next(error);
   }
@@ -75,8 +78,9 @@ app.post('/inquiry-form', validation, async (req, res, next) => {
 app.get('/delete', async (req, res, next) => {
   try {
     const { id, name } = req.query;
+    const currentName = users.getValueById(id, 'name');
     await users.delete(Number(id));
-    res.render('pages/success', { message:'has been deleted from the database', name });
+    res.render('pages/success', { message:'has been deleted from the database', name:he.decode(currentName) });
   } catch(err) {
     next(err);
   }

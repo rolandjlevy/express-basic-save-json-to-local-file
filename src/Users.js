@@ -60,6 +60,10 @@ class Users {
       return acc;
     }, 0);
   }
+  getValueById(id, prop) {
+    const found = this.getData().find(item => Number(item.id) === Number(id));
+    return found[prop];
+  }
 }
 
 module.exports = Users;

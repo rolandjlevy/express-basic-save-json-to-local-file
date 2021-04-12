@@ -15,6 +15,7 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "he": "^1.2.0"
   }
 }

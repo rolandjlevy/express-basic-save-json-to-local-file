@@ -18,8 +18,9 @@ Inquiry form made with Node, Express and EJS which reads data from and writes da
 - The inquiries are shown in a table which is mobile responsive
 - All the code was written from scratch
 
-## Rsources used
+## Resources used
 - [express-validator](https://express-validator.github.io/docs/) node package for validating / sanitizating input
+- [he encoder/decoder](https://github.com/mathiasbynens/he) for HTML entities
 - [dateformat](https://www.npmjs.com/package/dateformat) node package to format the date
 - [recaptcha](https://developers.google.com/recaptcha) for protection against spam and abuse
 - [unsplash](https://unsplash.com/) royalty-free images

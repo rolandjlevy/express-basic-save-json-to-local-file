@@ -211,7 +211,9 @@ table.inquiries > thead > tr {
 table.inquiries th,
 table.inquiries td {
   font-weight: normal;
-  padding: 12px;
+  padding: 8px;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 table.inquiries th {
@@ -263,7 +265,7 @@ table.inquiries td > span:first-child {
     background-color: #fcfcfc;
   }
   table.inquiries td {
-    border: 1px solid #bbb;
+    border: 1px solid #ccc;
     margin: 0 -1px -1px 0;
     padding-top: 35px;
     position: relative;
@@ -271,7 +273,7 @@ table.inquiries td > span:first-child {
     font-size: 0.875rem;
   }
   table.inquiries td:not(:last-child) {
-    border-right: 1px solid #bbb;
+    border-right: 1px solid #ccc;
   }
   table.inquiries td > span:first-child {
     display: inline-block;
