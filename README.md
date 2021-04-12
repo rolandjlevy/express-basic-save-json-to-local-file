@@ -6,4 +6,4 @@
 - [Source code](https://replit.com/@RolandJLevy/express-crud-writing-json-to-file)
 - [Github repo](https://github.com/rolandjlevy/express-crud-writing-json-to-file)
 
-![screen shot](https://raw.githubusercontent.com/rolandjlevy/express-crud-writing-json-to-file/master/public/images/screen-shot.jpg)
+![screen shot](https://raw.githubusercontent.com/rolandjlevy/express-crud-writing-json-to-file/master/public/images/screen-shot.png)
