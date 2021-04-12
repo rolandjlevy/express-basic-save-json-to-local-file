@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require('../index');
 
 describe("GET endpoints", () => {
-  
+
   test("Root endpoint response with statusCode 200", () => {
     return request(app)
       .get("/")
@@ -11,7 +11,7 @@ describe("GET endpoints", () => {
       });
   });
 
-  test("/delete endpoint response for req.query", () => {
+  test("/delete endpoint response with invalid id", () => {
     return request(app)
       .get('/delete')
       .query( {
