@@ -1,14 +1,14 @@
 const express = require('express');
 const app = express();
-const dateFormat = require('dateformat'); // date formatted
+const dateFormat = require('dateformat'); // date formatter
 const he = require('he'); // HTML entity encoder & decoder
 const { check, body, validationResult } = require('express-validator'); // user input validator / sanitizer
 require('dotenv').config();
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // middleware parses urlencoded bodies of any type
+// app.use(express.json());
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs'); // set ejs as the template engine
 app.use(express.static(__dirname + '/public'));
 
 const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY;
@@ -67,7 +67,7 @@ app.post('/inquiry-form', validation, async (req, res, next) => {
     }
     await users.add(req.body);
     const name = he.decode(req.body.name);
-    res.render('pages/success', { message:'- your inquiry has been sent', name });
+    res.render('pages/success', { message:' - thank you, your inquiry has been sent.', name });
   } catch(error) {
     next(error);
   }
@@ -77,9 +77,9 @@ app.post('/inquiry-form', validation, async (req, res, next) => {
 app.get('/delete', async (req, res, next) => {
   try {
     const { id, name } = req.query;
-    const currentName = users.getValueById(id, 'name');
+    const currentName = users.getValueById(id, 'name') || '';
     await users.delete(Number(id));
-    res.render('pages/success', { message:'has been deleted from the database', name:he.decode(currentName) });
+    res.render('pages/success', { message:'has been deleted from the records.', name:he.decode(currentName) });
   } catch(err) {
     next(err);
   }
@@ -95,10 +95,10 @@ app.get('/not-found', (req, res) => {
   res.render('pages/not-found');
 });
 
-// wildcard route throws 301 error (redirect)
+// wildcard route throws 302 error (redirect)
 app.get('*', (req, res, next) => {
   const error = new Error(`${req.ip} tried to access ${req.originalUrl}`);
-  error.statusCode = 301;
+  error.statusCode = 302;
   next(error);
 });
 
@@ -107,12 +107,12 @@ app.use((error, req, res, next) => {
   // if status code not defined set to generic HTTP status code (500)
   if (!error.statusCode) error.statusCode = 500;
   // redirect if route is not found
-  if (error.statusCode === 301) {
-    return res.status(301).redirect('/not-found');
+  if (error.statusCode === 302) {
+    return res.status(302).redirect('/not-found');
   }
   // render error page
   res.status(error.statusCode);
   res.render('pages/error', { error: error.toString() })
 });
 
-module.exports = app;
+module.exports = app; // export module so server.js can import app to listen for requests and testing libraries can have access to app without listening to requests on the same port

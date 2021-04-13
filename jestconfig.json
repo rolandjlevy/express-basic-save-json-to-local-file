@@ -1,0 +1,6 @@
+{
+  "setupFiles": ["dotenv/config"],
+  "collectCoverage":true,
+  "coverageDirectory": "./coverage",
+  "testEnvironment":"node"
+}

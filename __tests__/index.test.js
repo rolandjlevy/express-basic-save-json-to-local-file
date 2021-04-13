@@ -1,13 +1,15 @@
+// testing HTTP requests with supertest
+
 const request = require("supertest");
 const app = require('../index');
 
 describe("GET endpoints", () => {
 
-  test("Root endpoint response with statusCode 200", () => {
+  test("Root endpoint with successful status (200)", () => {
     return request(app)
       .get("/")
-      .then(response => {
-        expect(response.statusCode).toBe(200);
+      .then(res => {
+        expect(res.statusCode).toBe(200);
       });
   });
 
@@ -15,17 +17,25 @@ describe("GET endpoints", () => {
     return request(app)
       .get('/delete')
       .query( {
-        id: '55'
+        id: 'xxx'
       })
-      .then(response => {
-        expect(response.statusCode).toBe(500);
+      .then(res => {
+        expect(res.statusCode).toBe(500);
+      });
+  });
+
+  test("/* endpoint response with temporary redirect (302)", () => {
+    return request(app)
+      .get('/*')
+      .then(res => {
+        expect(res.statusCode).toBe(302);
       });
   });
 
 });
 
 describe('POST endpoints', () => {
-  it('response with invalid input', () => {
+  test('Inqiury form posted with unprocessable input (422)', () => {
     return request(app)
       .post('/inquiry-form')
       .send({

@@ -18,9 +18,9 @@ Inquiry form made with Node, Express and EJS which reads data from and writes da
 - The inquiries are shown in a table which is mobile responsive
 - All the code was written from scratch
 
-## Tests
-- Run all tests with `npm test'
-- Testing with [jest](https://jestjs.io) and [supertest](https://www.npmjs.com/package/supertest)
+## Testing
+- Run all tests with `npm test`
+- Testing with [jest](https://jestjs.io) and [supertest](https://www.npmjs.com/package/supertest) HTTP assertions library
 
 ## Resources used
 - [express-validator](https://express-validator.github.io/docs/) node package for validating / sanitizating input

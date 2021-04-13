@@ -4,8 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --watchAll --config=jestconfig.json",
     "start": "node server.js"
   },
   "keywords": [],

@@ -4,7 +4,8 @@ require('dotenv').config();
 class Users {
   constructor() {
     this.filename = './data/' + process.env.FILENAME;
-    this.init();
+    this.testing = process.env.NODE_ENV === 'test';
+    if (!this.testing) this.init();
   }
   init() {
     if (fs.existsSync(this.filename)) {
@@ -20,14 +21,16 @@ class Users {
       const data = JSON.parse(fileContents);
       return data.sort((a, b) => new Date(b.added) - new Date(a.added));
     } catch(err) {
-      console.log(err);
+      if (this.testing) return null;
+      throw new Error(err);
     }
   }
   saveData(data) {
     try {
       fs.writeFileSync(this.filename, JSON.stringify(data));
     } catch(err) {
-      console.log(err);
+      if (this.testing) return null;
+      throw new Error(err);
     }
   }
   add(formData) {
@@ -60,9 +63,12 @@ class Users {
       return acc;
     }, 0);
   }
+  getUserById(id) {
+    return this.getData().find(item => Number(item.id) === Number(id));
+  }
   getValueById(id, prop) {
-    const found = this.getData().find(item => Number(item.id) === Number(id));
-    return found[prop];
+    const found = this.getUserById(id);
+    return (found && found[prop]) || false;
   }
 }
 
