@@ -129,6 +129,7 @@ a.link:hover {
 a.link.view {
   font-size: 0.875rem;
   white-space: nowrap;
+  font-weight: normal;
 }
 
 /********/
