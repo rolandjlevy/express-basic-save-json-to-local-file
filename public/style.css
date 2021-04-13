@@ -449,6 +449,64 @@ table.inquiries td > span:first-child {
   margin-bottom: 40px;
 }
 
+
+/**************/
+/* Animations */
+/**************/
+
+
+.fade-in {
+  opacity: 0;
+  animation-name: fade;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+}
+
+@keyframes fade {
+  to { 
+    opacity: 1; 
+  }
+}
+
+.cake {
+  display: inline-block;
+  position: relative;
+  font-size: 3rem;
+  transform: rotate(55deg);
+  transform-origin: 50% 50%;
+  animation-name: spin;
+  animation-duration: 2.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(55deg); }
+  5% { transform: rotate(-55deg); }
+  10% { transform: rotate(50deg); }
+  15% { transform: rotate(-50deg); }
+  20% { transform: rotate(45deg); }
+  25% { transform: rotate(-45deg); }
+  30% { transform: rotate(40deg); }
+  35%{ transform: rotate(-40deg); }
+  40%{ transform: rotate(35deg); }
+  45%{ transform: rotate(-35deg); }
+  50% { transform: rotate(30deg); }
+  55% { transform: rotate(-30deg); }
+  60% { transform: rotate(25deg); }
+  65% { transform: rotate(-25deg); }
+  70% { transform: rotate(20deg); }
+  75% { transform: rotate(-20deg); }
+  80%{ transform: rotate(15deg); }
+  85%{ transform: rotate(-15deg); }
+  90%{ transform: rotate(10deg); }
+  95%{ transform: rotate(-10deg); }
+  100% { transform: rotate(5deg); }
+}
+
 /*************/
 /* Recaptcha */
 /*************/
