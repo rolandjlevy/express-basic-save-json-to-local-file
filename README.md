@@ -1,4 +1,4 @@
-# Node / Express app: writing json to file
+# Node / Express inquiry form and admin page
 
 Inquiry form made with Node, Express and EJS which reads data from and writes data to a json file. All inquiries can be viewed in a table with the newest one showing first. Each one can be deleted. 
 
@@ -13,20 +13,22 @@ Inquiry form made with Node, Express and EJS which reads data from and writes da
 ## Features ⚙️
 - User input is validated and sanitized on the back end
 - Errors are handled for non existent endpoints or user ids
-- After an inquiry is added or deleted, a success page is displayed
 - If the user input or recaptcha is invalid an error message is displayed
-- The inquiries are shown in a table which is mobile responsive
-- All the code was written from scratch
+- After an inquiry is added or deleted, a success page is displayed
+- The inquiries are shown in an admin table which is mobile responsive
+- Tests written for HTTP requests and functions from Users class
 
-## Testing
+## Testing ✅
 - Run all tests with `npm test`
 - Testing with [jest](https://jestjs.io) and [supertest](https://www.npmjs.com/package/supertest) HTTP assertions library
 
-## Resources used
+## Reference and resources 📙
 - [express-validator](https://express-validator.github.io/docs/) node package for validating / sanitizating input
 - [he encoder/decoder](https://github.com/mathiasbynens/he) for HTML entities
 - [dateformat](https://www.npmjs.com/package/dateformat) node package to format the date
 - [recaptcha](https://developers.google.com/recaptcha) for protection against spam and abuse
+- [jest](https://jestjs.io) JavaScript testing framework
+- [supertest](https://www.npmjs.com/package/supertest) HTTP request testing library
 - [unsplash](https://unsplash.com/) royalty-free images
 - [fontawesome](https://fontawesome.com) free icons
-- [responsiveness for tables](https://uglyduck.ca/responsive-tables/) an elegant solution
+- [responsive tables](https://uglyduck.ca/responsive-tables) an elegant CSS solution for making tables responsive
