@@ -64,7 +64,6 @@ nav {
   background-color: #ffffffcc;
   border-radius: 10px;
   padding: 30px;
-  /* box-shadow: 0 10px 40px 10px #00000033; */
   box-shadow: 0 0 50px 10px #00000033;
   transition: all 0.2s ease;
   width: 100%;
@@ -120,10 +119,16 @@ a.link {
   font-weight: 800;
   text-decoration: none;
   border-bottom: 2px dotted var(--primary-blue-dark);
+  transition: border-bottom 0.2s ease;
 }
 
 a.link:hover {
   border-bottom: 2px solid var(--primary-blue-dark);
+}
+
+a.link.view {
+  font-size: 0.875rem;
+  white-space: nowrap;
 }
 
 /********/
@@ -250,6 +255,7 @@ table.inquiries td > span:first-child {
   .inquiries-wrapper {
     max-height: auto;
     overflow-y: initial;
+    box-shadow: none;
   }
   table.inquiries > thead {
     left: -9999px;

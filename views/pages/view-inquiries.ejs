@@ -32,7 +32,7 @@
         %>
         <tr>
           <td><span>Name</span><%= he.decode(item.name) %></td>
-          <td><span>Email</span><%= item.email %></td>
+          <td><span>Email</span>📧 &nbsp;<a href="mailto:<%= item.email %>" class="link view"><%= item.email %></a></td>
           <td><span>Message</span><%= he.decode(item.message) %></td>
           <td class="text-center"><span>Subscribed?</span><span class="icon <%= item.subscribe %>"></span></td>
           <td><span>Date / Time added</span><%= dateFormat(date, 'GMT:dd/mm/yyyy, h:MM:ss TT') %></td>
