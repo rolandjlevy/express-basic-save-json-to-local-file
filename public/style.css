@@ -64,7 +64,8 @@ nav {
   background-color: #ffffffcc;
   border-radius: 10px;
   padding: 30px;
-  box-shadow: 0 10px 40px 10px #00000033;
+  /* box-shadow: 0 10px 40px 10px #00000033; */
+  box-shadow: 0 0 50px 10px #00000033;
   transition: all 0.2s ease;
   width: 100%;
 }
@@ -189,6 +190,7 @@ li > input[type=checkbox] {
   max-height: 600px;
   max-width: 1000px;
   overflow-y: auto;
+  box-shadow: 0 0 100px 20px #00000033;
 }
 
 table.inquiries {
@@ -214,6 +216,7 @@ table.inquiries td {
   padding: 8px;
   font-size: 0.875rem;
   line-height: 1.5;
+  white-space: initial;
 }
 
 table.inquiries th {
@@ -315,7 +318,8 @@ table.inquiries td > span:first-child {
   margin-bottom: 10px;
   color: var(--primary-blue-mid-light);
   height: 30px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  font-weight: normal;
   box-shadow: 0 0 20px 0 #000;
 }
 
@@ -346,8 +350,17 @@ table.inquiries td > span:first-child {
   content: "\f086";
 }
 
+.icon.inquiry.large::after {
+  font-size: 2rem;
+  color: var(--primary-blue-dark);
+}
+
 .icon.view::after {
   content: "\f06e";
+}
+
+.icon.view.large::after {
+  font-size: 2rem;
 }
 
 .icon.edit::after {
@@ -375,6 +388,14 @@ table.inquiries td > span:first-child {
 .icon.tick::after {
   content: "\f14a";
   color: var(--primary-blue-mid);
+}
+
+.icon.send::after {
+  content: "\f1d8";
+}
+
+.icon.send.light::after {
+  color: #fff;
 }
 
 .icon.trash::after {
