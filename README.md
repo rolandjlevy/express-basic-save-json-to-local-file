@@ -2,7 +2,7 @@
 
 ### Welcome to Tasty Treats! 🍰 
 
-Connect with your local bakery with this inquiry form made with Node, Express and EJS which reads data from and writes data to a json file. All inquiries can be viewed in a table with the latest showing first. Each one can be deleted. 
+Connect with your local bakery **Tasty Treats** with this inquiry form made with Node, Express and EJS which reads data from and writes data to a json file. All inquiries can be viewed in a table with the latest showing first. Each one can be deleted. 
 
 ## Links 🔗
 
