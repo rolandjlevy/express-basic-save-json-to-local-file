@@ -6,19 +6,19 @@ Connect with your local bakery **Tasty Treats** with this inquiry form made with
 
 ## Links 🔗
 
-- [Live demo](https://express-crud-writing-json-to-file.rolandjlevy.repl.co/)
-- [Source code](https://replit.com/@RolandJLevy/express-crud-writing-json-to-file)
-- [Github repo](https://github.com/rolandjlevy/express-crud-writing-json-to-file)
+- [See live demo](https://express-crud-writing-json-to-file.rolandjlevy.repl.co/)
+- [View source code](https://replit.com/@RolandJLevy/express-crud-writing-json-to-file)
+- [Explore Github repo](https://github.com/rolandjlevy/express-crud-writing-json-to-file)
 
 ![screen shot](https://raw.githubusercontent.com/rolandjlevy/express-crud-writing-json-to-file/master/public/images/screen-shot.png)
 
 ## Features ⚙️
 - User input is validated and sanitized on the back end
 - Errors are handled for non existent endpoints or user ids
-- If the user input or recaptcha is invalid an error message is displayed
+- When user input or the recaptcha is invalid an error message is displayed
 - After an inquiry is added or deleted, a success page is displayed
 - The inquiries are shown in an admin table which is mobile responsive
-- Tests written for HTTP requests and functions from Users class
+- Tests can be run for HTTP requests and functions from Users class
 
 ## Testing ✅
 - Run all tests with `npm test`
