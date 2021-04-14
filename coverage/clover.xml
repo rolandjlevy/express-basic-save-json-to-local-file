@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1618353406031" clover="3.2.0">
-  <project timestamp="1618353406031" name="All files">
+<coverage generated="1618356762594" clover="3.2.0">
+  <project timestamp="1618356762596" name="All files">
     <metrics statements="97" coveredstatements="62" conditionals="29" coveredconditionals="12" methods="23" coveredmethods="14" elements="149" coveredelements="88" complexity="0" loc="97" ncloc="97" packages="2" files="2" classes="2"/>
     <package name="express-crud-writing-json-to-file">
       <metrics statements="60" coveredstatements="45" conditionals="10" coveredconditionals="6" methods="9" coveredmethods="6"/>

@@ -1,10 +1,11 @@
 :root {
   --nav-height: 80px;
+  --primary-blue-lighter: hsl(185, 100%, 85%);
   --primary-blue-light: hsl(185, 100%, 80%);
-  --primary-blue-mid-light: hsl(185, 100%, 50%);
+  --primary-blue-mid-light: hsl(185, 100%, 45%);
   --primary-blue-mid: hsl(185, 100%, 40%);
   --primary-blue-dark: hsl(185, 100%, 30%);
-  --primary-blue-darker: hsl(185, 50%, 20%);
+  --primary-blue-darker: hsl(185, 50%, 25%);
   --primary-blue-deep: hsl(185, 50%, 15%);
 }
 
@@ -16,7 +17,7 @@
 
 body {
   font-size: 1rem;
-  background: linear-gradient(0deg, #fff, var(--primary-blue-mid));
+  background: linear-gradient(0deg, #fff, var(--primary-blue-mid-light));
   background-repeat: no-repeat;
   margin: 0;
   padding: 0;
@@ -108,6 +109,7 @@ h2.darker {
 p {
   color: var(--primary-blue-darker);
   line-height: 1.5;
+  text-align: center;
 }
 
 p.light {
@@ -115,15 +117,15 @@ p.light {
 }
 
 a.link {
-  color: var(--primary-blue-dark);
+  color: var(--primary-blue-darker);
   font-weight: 800;
   text-decoration: none;
-  border-bottom: 2px dotted var(--primary-blue-dark);
+  border-bottom: 2px dotted var(--primary-blue-darker);
   transition: border-bottom 0.2s ease;
 }
 
 a.link:hover {
-  border-bottom: 2px solid var(--primary-blue-dark);
+  border-bottom: 2px solid var(--primary-blue-darker);
 }
 
 a.link.view {
@@ -193,7 +195,7 @@ li > input[type=checkbox] {
 /******************/
 
 .inquiries-wrapper {
-  max-height: 600px;
+  max-height: 500px;
   max-width: 1000px;
   overflow-y: auto;
   box-shadow: 0 0 100px 20px #00000033;
@@ -212,7 +214,7 @@ table.inquiries > tbody > tr:nth-child(odd) {
 }
 
 table.inquiries > thead > tr {
-  background-color: var(--primary-blue-darker);
+  background-color: var(--primary-blue-dark);
   color: #fff;
 }
 
@@ -228,6 +230,8 @@ table.inquiries td {
 table.inquiries th {
   text-align: left;
   white-space: nowrap;
+  text-transform: uppercase;
+  font-size: 0.75rem;
 }
 
 table.inquiries td:not(:last-child) {
@@ -235,12 +239,11 @@ table.inquiries td:not(:last-child) {
 }
 
 table.inquiries td > span:first-child {
-  background: #ddd;
-  color: #000;
+  background: var(--primary-blue-dark);
+  color: #fff;
   letter-spacing: 1px;
   display: none;
   font-size: 10px;
-  font-weight: bold;
   padding: 5px;
   position: absolute;
   text-transform: uppercase;
@@ -272,7 +275,17 @@ table.inquiries td > span:first-child {
   }
   table.inquiries > tbody > tr:nth-child(even),
   table.inquiries > tbody > tr:nth-child(odd) {
-    background-color: #fcfcfc;
+    /* background-color: #fcfcfc; */
+  }
+  table.inquiries > tbody > tr > td:nth-child(1),
+  table.inquiries > tbody > tr > td:nth-child(2),
+  table.inquiries > tbody > tr > td:nth-child(5),
+  table.inquiries > tbody > tr > td:nth-child(6) {
+    background-color: #fff;
+  }
+  table.inquiries > tbody > tr > td:nth-child(3),
+  table.inquiries > tbody > tr > td:nth-child(4) {
+    background-color: #f3f3f3;
   }
   table.inquiries td {
     border: 1px solid #ccc;
@@ -454,14 +467,23 @@ table.inquiries td > span:first-child {
 /* Animations */
 /**************/
 
-.fade-in {
-  opacity: 0;
-  transform: translateY(-75px);
+.fade-in, .slide-in {
+  opacity: 1;
+  transform: translateY(0);
   animation-name: fade;
-  animation-duration: 1s;
+  animation-delay: 0.25s;
+  animation-duration: 0.75s;
   animation-fill-mode: forwards;
   animation-iteration-count: 1;
   animation-timing-function: ease-in-out;
+}
+
+.fade-in {
+  opacity: 0;
+}
+
+.slide-in {
+  transform: translateY(-75px); 
 }
 
 @keyframes fade {
@@ -475,13 +497,23 @@ table.inquiries td > span:first-child {
   display: inline-block;
   position: relative;
   font-size: 3rem;
-  transform: rotate(55deg);
+  transform: rotate(5deg);
   transform-origin: 50% 50%;
   animation-name: spin;
+  animation-delay: 0.25s;
   animation-duration: 2.5s;
   animation-fill-mode: forwards;
   animation-iteration-count: 1;
   animation-timing-function: linear;
+}
+
+ul.food-items > li:hover,
+.cake:hover {
+  animation-name: spin-infinite;
+  animation-delay: 0s;
+  animation-duration: 0.2s;
+  animation-iteration-count: infinite;
+  cursor: pointer;
 }
 
 @keyframes spin {
@@ -506,6 +538,32 @@ table.inquiries td > span:first-child {
   90%{ transform: rotate(10deg); }
   95%{ transform: rotate(-10deg); }
   100% { transform: rotate(5deg); }
+}
+
+@keyframes spin-infinite {
+  0%, 100% { 
+    transform: rotate(10deg); 
+  }
+  50% { 
+    transform: rotate(-10deg); 
+  }
+}
+
+/**************/
+/* Food items */
+/**************/
+
+ul.food-items {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+ul.food-items > li {
+  font-size: 2rem;
+  margin: 5px;
 }
 
 /*************/
