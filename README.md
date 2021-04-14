@@ -25,9 +25,10 @@ Connect with your local bakery **Tasty Treats** with this inquiry form made with
 - Testing with [jest](https://jestjs.io) and [supertest](https://www.npmjs.com/package/supertest) HTTP assertions library
 
 ## Reference and resources 📙
-- [express-validator](https://express-validator.github.io/docs/) node package for validating / sanitizating input
+- [EJS templating engine](https://www.npmjs.com/package/ejs) for generating HTML 
+- [express-validator](https://express-validator.github.io/docs) for validating / sanitizating input
 - [he encoder/decoder](https://github.com/mathiasbynens/he) for HTML entities
-- [dateformat](https://www.npmjs.com/package/dateformat) node package to format the date
+- [dateformat](https://www.npmjs.com/package/dateformat) to format the date
 - [recaptcha](https://developers.google.com/recaptcha) for protection against spam and abuse
 - [jest](https://jestjs.io) JavaScript testing framework
 - [supertest](https://www.npmjs.com/package/supertest) HTTP request testing library
