@@ -564,6 +564,7 @@ ul.food-items {
 ul.food-items > li {
   font-size: 2rem;
   margin: 5px;
+  text-shadow: 0 5px 10px #00000066;
 }
 
 /*************/
