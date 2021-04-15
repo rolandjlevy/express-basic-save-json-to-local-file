@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --watchAll --config=jestconfig.json",
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "dev": "nodemon server-dev.js"
   },
   "keywords": [],
   "author": "",

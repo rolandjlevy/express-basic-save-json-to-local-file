@@ -2,18 +2,17 @@ const express = require('express');
 const app = express();
 const dateFormat = require('dateformat'); // date formatter
 const he = require('he'); // HTML entity encoder / decoder
-const { check, body, validationResult } = require('express-validator'); // user input validator / sanitizer
+const { check, validationResult } = require('express-validator'); // user input validator / sanitizer
 require('dotenv').config();
 
 app.use(express.urlencoded({ extended: true })); // middleware parses urlencoded bodies of any type
-// app.use(express.json());
 
 app.set('view engine', 'ejs'); // set ejs as the template engine
 app.use(express.static(__dirname + '/public'));
 
 const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY;
 
-const Users = require('./src/Users.js');
+const Users = require('./src/Users.js'); 
 const users = new Users();
 
 // middleware to capture current url for nav links
@@ -52,7 +51,7 @@ const validation = [
 // Posted data for adding new inquiry
 app.post('/inquiry-form', validation, (req, res, next) => {
   try {
-    // validationResult from express-validator: extract validation errors from req and make them available to Result object
+    // validationResult makes errors available to result object
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const error = new Error(`Invalid input. Your name and message must be at least 3 characters and you must provide a valid email address.`);
@@ -61,14 +60,15 @@ app.post('/inquiry-form', validation, (req, res, next) => {
       return;
     }
     if (!req.body['g-recaptcha-response']) {
-      const error = new Error(`Invalid recaptcha. You cannot submit your inquiry unless you confirm that you are NOT a robot.`);
+      const error = new Error(`Invalid recaptcha. You cannot submit your inquiry unless you confirm that you are NOT a robot... 🤖`);
       error.statusCode = 422; // Unprocessable Entity
       next(error);
       return;
     }
-    users.add(req.body);
+    users.add(req.body);    
     const name = he.decode(req.body.name);
     res.render('pages/success', { message:' - thank you, your inquiry has been sent.', name });
+    return;
   } catch(error) {
     next(error);
   }
@@ -80,7 +80,8 @@ app.get('/delete', (req, res, next) => {
     const { id, name } = req.query;
     const currentName = users.getValueById(id, 'name') || '';
     users.delete(Number(id));
-    res.render('pages/success', { message:'has been deleted from the records.', name:he.decode(currentName) });
+    res.render('pages/success', { message:'has been deleted from the records.', name:he.decode(currentName)});
+    return;
   } catch(err) {
     next(err);
   }
@@ -90,13 +91,13 @@ app.get('/delete', (req, res, next) => {
 /* Error handling */
 /*////////////////*/
 
-// page not found
+// page not found (404)
 app.get('/not-found', (req, res) => {
   res.status(404);
   res.render('pages/not-found');
 });
 
-// wildcard route throws 302 error (redirect)
+// wildcard route throws 302 error (temporary redirect)
 app.get('*', (req, res, next) => {
   const error = new Error(`${req.ip} tried to access ${req.originalUrl}`);
   error.statusCode = 302;
@@ -113,7 +114,7 @@ app.use((error, req, res, next) => {
   }
   // render error page
   res.status(error.statusCode);
-  res.render('pages/error', { error: error.toString() })
+  res.render('pages/error', { error:error.toString() })
 });
 
 module.exports = app; // export module so server.js can import app to listen for requests and testing libraries can also have access to app without listening to requests on the same port
