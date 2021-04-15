@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const dateFormat = require('dateformat'); // date formatter
-const he = require('he'); // HTML entity encoder & decoder
+const he = require('he'); // HTML entity encoder / decoder
 const { check, body, validationResult } = require('express-validator'); // user input validator / sanitizer
 require('dotenv').config();
 
@@ -42,7 +42,7 @@ app.get('/view-inquiries', (req, res) => {
   });
 });
 
-// validation / sanitization settings for user input
+// express-validator: validation / sanitization settings for user input
 const validation = [
   check('name').not().isEmpty().trim().escape().isLength({ min:3, max:128 }),
   check('email').not().isEmpty().trim().isEmail().isLength({ max:128 }),
@@ -50,8 +50,9 @@ const validation = [
 ];
 
 // Posted data for adding new inquiry
-app.post('/inquiry-form', validation, async (req, res, next) => {
+app.post('/inquiry-form', validation, (req, res, next) => {
   try {
+    // validationResult from express-validator: extract validation errors from req and make them available to Result object
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const error = new Error(`Invalid input. Your name and message must be at least 3 characters and you must provide a valid email address.`);
@@ -65,7 +66,7 @@ app.post('/inquiry-form', validation, async (req, res, next) => {
       next(error);
       return;
     }
-    await users.add(req.body);
+    users.add(req.body);
     const name = he.decode(req.body.name);
     res.render('pages/success', { message:' - thank you, your inquiry has been sent.', name });
   } catch(error) {
@@ -74,11 +75,11 @@ app.post('/inquiry-form', validation, async (req, res, next) => {
 });
 
 // delete one inquiry
-app.get('/delete', async (req, res, next) => {
+app.get('/delete', (req, res, next) => {
   try {
     const { id, name } = req.query;
     const currentName = users.getValueById(id, 'name') || '';
-    await users.delete(Number(id));
+    users.delete(Number(id));
     res.render('pages/success', { message:'has been deleted from the records.', name:he.decode(currentName) });
   } catch(err) {
     next(err);
@@ -115,4 +116,4 @@ app.use((error, req, res, next) => {
   res.render('pages/error', { error: error.toString() })
 });
 
-module.exports = app; // export module so server.js can import app to listen for requests and testing libraries can have access to app without listening to requests on the same port
+module.exports = app; // export module so server.js can import app to listen for requests and testing libraries can also have access to app without listening to requests on the same port

@@ -10,7 +10,7 @@ Connect with your local bakery **Tasty Treats** with this inquiry form made with
 - [View source code](https://replit.com/@RolandJLevy/express-crud-writing-json-to-file)
 - [Explore Github repo](https://github.com/rolandjlevy/express-crud-writing-json-to-file)
 
-![screen shot](https://raw.githubusercontent.com/rolandjlevy/express-crud-writing-json-to-file/master/public/images/screen-shot.png)
+![inquiry form](https://raw.githubusercontent.com/rolandjlevy/express-crud-writing-json-to-file/master/public/images/screen-shot.png)
 
 ## Features ⚙️
 - User input is validated and sanitized on the back end
