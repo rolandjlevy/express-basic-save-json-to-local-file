@@ -77,9 +77,9 @@ app.post('/inquiry-form', validation, (req, res, next) => {
 // delete one inquiry
 app.get('/delete', (req, res, next) => {
   try {
-    const { id, name } = req.query;
-    const currentName = users.getValueById(id, 'name') || '';
-    users.delete(Number(id));
+    const { uuid, name } = req.query;
+    const currentName = users.getValueById(uuid, 'name') || '';
+    users.delete(uuid);
     res.render('pages/success', { message:'has been deleted from the records.', name:he.decode(currentName)});
     return;
   } catch(err) {

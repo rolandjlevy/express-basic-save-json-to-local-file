@@ -47,7 +47,7 @@
             <span>Date / Time added</span><%= dateFormat(date, 'GMT:dd/mm/yyyy, h:MM:ss TT') %>
           </td>
           <td class="text-center">
-            <span>Delete</span><a href="/delete?id=<%= item.id %>&name=<%= item.name %>"><span class="icon trash"></span></a>
+            <span>Delete</span><a href="/delete?uuid=<%= item.uuid %>&name=<%= item.name %>"><span class="icon trash"></span></a>
           </td>
         </tr>
         <%

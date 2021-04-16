@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
 class Users {
@@ -8,11 +9,8 @@ class Users {
     if (!this.testing) this.init();
   }
   init() {
-    if (fs.existsSync(this.filename)) {
-      this.counter = this.getLastId();
-    } else {
+    if (!fs.existsSync(this.filename)) {
       this.saveData([]);
-      this.counter = 0;
     }
   }
   getData() {
@@ -39,7 +37,7 @@ class Users {
     }
     const { name, email, message, subscribe } = formData;
     const user = {
-      id: ++this.counter, 
+      uuid: uuidv4(),
       name, 
       email,
       message,
@@ -49,25 +47,23 @@ class Users {
     const updatedData = [ ...this.getData(), user];
     this.saveData(updatedData);
   }
-  delete(id) {
-    const userExists = this.getData().find(item => item.id === id);
+  delete(uuid) {
+    const userExists = this.getData().find(item => {
+      return item.uuid === uuid;
+    });
     if (!userExists) {
-      throw new Error(`Record with ID '${id}' does not exist`);
+      throw new Error(`Record with ID '${uuid}' does not exist`);
     }
-    const updatedUsers = this.getData().filter(item => item.id !== id);
+    const updatedUsers = this.getData().filter(item => item.uuid !== uuid);
     this.saveData(updatedUsers);
   }
-  getLastId() {
-    return this.getData().reduce((acc, item) => {
-      if (Number(item.id) > acc) acc = item.id;
-      return acc;
-    }, 0);
+  getUserById(uuid) {
+    return this.getData().find(item => {
+      return item.uuid === uuid;
+    });
   }
-  getUserById(id) {
-    return this.getData().find(item => Number(item.id) === Number(id));
-  }
-  getValueById(id, prop) {
-    const found = this.getUserById(id);
+  getValueById(uuid, prop) {
+    const found = this.getUserById(uuid);
     return (found && found[prop]) || false;
   }
 }
