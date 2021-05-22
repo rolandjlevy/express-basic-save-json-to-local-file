@@ -2,7 +2,7 @@
 
 ### Welcome to Tasty Treats! 🍰 
 
-> Connect with your local bakery **Tasty Treats** with this inquiry form made with Node, Express and EJS which reads data from and writes data to a json file. All inquiries can be viewed in a table with the latest showing first. Each one can be deleted. 
+> Connect with your local bakery **Tasty Treats** with this inquiry form made with Node, Express and EJS which reads data from and writes data to a JSON file. All inquiries can be viewed in a table with the latest showing first, and each one can be deleted.
 
 ## Links 🔗
 
@@ -10,7 +10,7 @@
 - [View source code](https://replit.com/@RolandJLevy/express-crud-writing-json-to-file)
 - [Explore Github repo](https://github.com/rolandjlevy/express-crud-writing-json-to-file)
 
-![inquiry form](https://raw.githubusercontent.com/rolandjlevy/express-crud-writing-json-to-file/master/public/images/screen-shot.png)
+![inquiry form](public/images/screen-shot.png)
 
 ## Features ⚙️
 - User input is validated and sanitized on the back end
@@ -24,7 +24,7 @@
 - Run all tests with `npm test`
 - Testing with [jest](https://jestjs.io) and [supertest](https://www.npmjs.com/package/supertest) HTTP assertions library
 
-## Reference and resources 📙
+## References and Resources 📙
 - [EJS templating engine](https://www.npmjs.com/package/ejs) for generating HTML 
 - [express-validator](https://express-validator.github.io/docs) for validating / sanitizating input
 - [he encoder/decoder](https://github.com/mathiasbynens/he) for HTML entities
