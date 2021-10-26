@@ -49,12 +49,14 @@ nav {
 
 .container {
   margin: 0 30px;
-  margin-top: calc(var(--nav-height) + 50px);
+  /* margin-top: calc(var(--nav-height) + 50px); */
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
+  height: calc(100vh - 70px);
+  top: 70px;
+  position: relative;
 }
 
 .content {
@@ -303,6 +305,18 @@ table.inquiries td > span:first-child {
   }
 }
 
+/********/
+/* Form */
+/********/
+
+.field {
+  font-weight: 500;
+  border-radius: 5px;
+  border: none;
+  line-height: 1.25;
+  padding: 10px;
+}
+
 /***********/
 /* Buttons */
 /***********/
@@ -321,14 +335,23 @@ table.inquiries td > span:first-child {
   line-height: 1.25;
 }
 
-.btn.primary {
+.btn.primary, .btn.form {
   background: var(--primary-blue-mid);
   color: #fff;
   padding: 10px;
+}
+
+.btn.primary {
   width: 100%;
 }
 
-.btn.primary:hover {
+.btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.btn:hover {
   background: var(--primary-blue-dark);
 }
 

@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <%- include('../partials/head') %>
+  <script>
+  </script>
 </head>
 <body>
 
@@ -10,54 +12,12 @@
 </header>
 
 <main class="container">
-  <h2 class="darker m-b-20">View inquiries <span class="icon view large"></span></h2>
-  <section class="inquiries-wrapper">
-    <% if (!users.length) { %>
-      <p>No inquiries found</p>
-    <% } else { %>
-      <table class="inquiries">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Message</th>
-            <th>Subscribed?</th>
-            <th>Date / Time added</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-        <% users.forEach(item => { 
-          const date = new Date(item.added);
-        %>
-        <tr>
-          <td>
-            <span>Name</span><%= he.decode(item.name) %>
-          </td>
-          <td>
-            <span>Email</span><a href="mailto:<%= item.email %>" class="link view"><%= item.email %></a>
-          </td>
-          <td>
-            <span>Message</span><%= he.decode(item.message) %>
-          </td>
-          <td class="text-center">
-            <span>Subscribed?</span><span class="icon <%= item.subscribe %>"></span>
-          </td>
-          <td>
-            <span>Date / Time added</span><%= dateFormat(date, 'GMT:dd/mm/yyyy, h:MM:ss TT') %>
-          </td>
-          <td class="text-center">
-            <span>Delete</span><a href="/delete?uuid=<%= item.uuid %>&name=<%= item.name %>"><span class="icon trash"></span></a>
-          </td>
-        </tr>
-        <%
-          });
-        %>
-        </tbody>
-      </table>
-      <%
-        }
-      %>
+  <h2 class="darker m-b-20">Access to Inquiries <span class="icon view large"></span></h2>
+  <section>
+    <form method="post" action="/view-inquiries-page">
+      <input name="secret" class="field" oninput="validate(this)" placeholder="Enter secret..." />
+      <button type="submit" class="btn form" disabled>Submit</button>        
+    </form>
   </section>
 </main>
 

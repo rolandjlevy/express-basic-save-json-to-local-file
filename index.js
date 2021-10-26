@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true })); // middleware parses urlencoded
 app.set('view engine', 'ejs'); // set ejs as the template engine
 app.use(express.static(__dirname + '/public'));
 
-const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY;
+const { RECAPTCHA_SITE_KEY, SECRET } = process.env;
 
 const Users = require('./src/Users.js'); 
 const users = new Users();
@@ -28,12 +28,22 @@ app.get('/', (req, res) => {
 
 // submit an inquiry page
 app.get('/inquiry', (req, res) => {
-  res.render('pages/inquiry', { url:res.locals.url, recaptchaSiteKey });
+  res.render('pages/inquiry', { url:res.locals.url, recaptchaSiteKey: RECAPTCHA_SITE_KEY });
+});
+
+// access inquiries page
+app.get('/view-inquiries', (req, res) => {
+  res.render('pages/view-inquiries');
 });
 
 // view full list of inquiries
-app.get('/view-inquiries', (req, res) => {
-  res.render('pages/view-inquiries', { 
+app.post('/view-inquiries-page', (req, res, next) => {
+  if (req.body.secret !== SECRET) {
+    const err = new Error('Current secret is Invalid');
+    err.statusCode = 403;
+    next(err);
+  }
+  res.render('pages/view-inquiries-page', { 
     url:res.locals.url, 
     users:users.getData(), 
     dateFormat,
