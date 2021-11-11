@@ -1,6 +1,17 @@
 const btn = document.querySelector('.btn.form');
-console.log(btn)
+
+const inputField = document.querySelector('.field');
+
 const validate = (target) => {
-  console.log(target.value, target.value.length)
   btn.disabled = !target.value.length
+}
+
+inputField.focus();
+
+function toggle() {
+  if (inputField.type === "password") {
+    inputField.type = "text";
+  } else {
+    inputField.type = "password";
+  }
 }
